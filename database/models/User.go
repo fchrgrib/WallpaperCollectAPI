@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-type User struct {
+type UserLogin struct {
 	Id           int            `json:"id" gorm:"primaryKey"`
 	UserName     string         `json:"userName""`
 	Password     string         `json:"password" binding:"min=6,max=24,required"`
@@ -17,6 +17,17 @@ type User struct {
 	DeletedAt    gorm.DeletedAt `json:"deletedAt" gorm:"index"`
 	Token        string         `json:"token"`
 	UpdatedToken string         `json:"updateToken"`
+}
+
+type User struct {
+	Id          int            `json:"id" gorm:"primaryKey"`
+	UserName    string         `json:"userName""`
+	Password    string         `json:"password" binding:"min=6,max=24,required"`
+	Email       string         `json:"email"`
+	PhoneNumber int            `json:"phoneNumber"`
+	CreatedAt   time.Time      `json:"createdAt"`
+	UpdatedAt   time.Time      `json:"updatedAt"`
+	DeletedAt   gorm.DeletedAt `json:"deletedAt" gorm:"index"`
 }
 
 type WallpaperCollection struct {
