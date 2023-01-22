@@ -20,8 +20,9 @@ type User struct {
 }
 
 type WallpaperCollection struct {
-	ImageId   int `json:"imageId" gorm:"primaryKey"`
-	UserId    int `json:"userId"`
+	ImageId   int    `json:"imageId" gorm:"primaryKey"`
+	UserId    int    `json:"userId"`
+	ImageName string `json:"imageName"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt
