@@ -10,6 +10,7 @@ import (
 func ConnectDB() (*gorm.DB, error) {
 	db, err := gorm.Open(sqlite.Open("./User.db"), &gorm.Config{})
 	if err != nil {
+		panic(err)
 		return nil, err
 	}
 	if err = db.AutoMigrate(&models.User{}, &models.WallpaperCollection{}); err != nil {
