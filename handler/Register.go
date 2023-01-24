@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 	"time"
 	"walpapperCollectRestAPI/database"
 	"walpapperCollectRestAPI/database/models"
@@ -11,6 +12,12 @@ import (
 func CreateUser(user models.User) (httpResponse models.HTTPResponse, httpStatusCode int) {
 	db, err := database.ConnectDB()
 	if err != nil {
+		return
+	}
+
+	if tools.ValidationNumberPhone(strconv.Itoa(user.PhoneNumber)) {
+		httpResponse.Message = "you input the wrong number phone format"
+		httpStatusCode = http.StatusBadRequest
 		return
 	}
 
@@ -41,6 +48,10 @@ func CreateUser(user models.User) (httpResponse models.HTTPResponse, httpStatusC
 	//if service.SendEmail(authFinal.Email, model.EmailTypeVerification) {
 	//	authFinal.VerifyEmail = model.EmailNotVerified
 	//}
+
+	if err = tools.PhoneNumberOTP(user.PhoneNumber); err != nil {
+
+	}
 
 	user.CreatedAt = time.Now().Local()
 	user.UpdatedAt = time.Now().Local()
