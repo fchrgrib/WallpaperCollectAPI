@@ -27,19 +27,19 @@ func CreateUser(user models.User) (httpResponse models.HTTPResponse, httpStatusC
 		return
 	}
 
-	if err := db.Where("email = ?", user.Email).First(&user).Error; err == nil {
+	if err := db.Table("User").First(&user).Error; err == nil {
 		httpResponse.Message = "e-mail has already exist"
 		httpStatusCode = http.StatusBadRequest
 		return
 	}
 
-	if err = db.Where("userName = ?", user.UserName).First(&user).Error; err != nil {
+	if err = db.Table("User").Where("userName = ?", user.UserName).First(&user).Error; err == nil {
 		httpResponse.Message = "username has already exist"
 		httpStatusCode = http.StatusBadRequest
 		return
 	}
 
-	if err = db.Where("phoneNumber = ?", user.PhoneNumber).First(&user).Error; err != nil {
+	if err = db.Table("User").Where("phoneNumber = ?", user.PhoneNumber).First(&user).Error; err == nil {
 		httpResponse.Message = "phone number has already exist"
 		httpStatusCode = http.StatusBadRequest
 		return
@@ -48,10 +48,6 @@ func CreateUser(user models.User) (httpResponse models.HTTPResponse, httpStatusC
 	//if service.SendEmail(authFinal.Email, model.EmailTypeVerification) {
 	//	authFinal.VerifyEmail = model.EmailNotVerified
 	//}
-
-	if err = tools.PhoneNumberOTP(user.PhoneNumber); err != nil {
-
-	}
 
 	user.CreatedAt = time.Now().Local()
 	user.UpdatedAt = time.Now().Local()
