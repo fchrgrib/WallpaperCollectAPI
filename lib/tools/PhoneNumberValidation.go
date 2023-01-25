@@ -8,7 +8,7 @@ func ValidationNumberPhone(numberPhone string) bool {
 	}
 	var mustNotIn = regexp.MustCompile("^[a-zA-Z!#$%&'*+\\/=?^_`{|}~-]$")
 
-	if mustNotIn.MatchString(numberPhone) {
+	if !mustNotIn.MatchString(numberPhone) {
 		return false
 	}
 	return true

@@ -1,68 +1,44 @@
 package handler
 
 import (
-	"net/http"
+	"errors"
 	"strconv"
-	"time"
 	"walpapperCollectRestAPI/database"
 	"walpapperCollectRestAPI/database/models"
 	"walpapperCollectRestAPI/lib/tools"
 )
 
-func CreateUser(user models.User) (httpResponse models.HTTPResponse, httpStatusCode int) {
+func CreateUser(user models.User) error {
 	db, err := database.ConnectDB()
 	if err != nil {
-		return
+		return errors.New("internal server error")
 	}
 
 	if tools.ValidationNumberPhone(strconv.Itoa(user.PhoneNumber)) {
-		httpResponse.Message = "you input the wrong number phone format"
-		httpStatusCode = http.StatusBadRequest
-		return
+		return errors.New("phone number is invalid")
 	}
 
-	if tools.ValidateEmail(user.Email) {
-		httpResponse.Message = "you input the wrong e-mail"
-		httpStatusCode = http.StatusBadRequest
-		return
+	if !tools.ValidateEmail(user.Email) {
+		return errors.New("email is invalid")
 	}
 
-	if err := db.Table("User").First(&user).Error; err == nil {
-		httpResponse.Message = "e-mail has already exist"
-		httpStatusCode = http.StatusBadRequest
-		return
+	if err := db.Table("users").Where("email = ?", user.Email).First(&user).Error; err == nil {
+		panic(err)
+		return err
 	}
 
-	if err = db.Table("User").Where("userName = ?", user.UserName).First(&user).Error; err == nil {
-		httpResponse.Message = "username has already exist"
-		httpStatusCode = http.StatusBadRequest
-		return
+	if err := db.Table("users").Where("user_name = ?", user.UserName).First(&user).Error; err == nil {
+		panic(err)
+		return err
 	}
 
-	if err = db.Table("User").Where("phoneNumber = ?", user.PhoneNumber).First(&user).Error; err == nil {
-		httpResponse.Message = "phone number has already exist"
-		httpStatusCode = http.StatusBadRequest
-		return
+	if err := db.Table("users").Where("phone_number = ?", user.PhoneNumber).First(&user).Error; err == nil {
+		panic(err)
+		return err
 	}
 
 	//if service.SendEmail(authFinal.Email, model.EmailTypeVerification) {
 	//	authFinal.VerifyEmail = model.EmailNotVerified
 	//}
-
-	user.CreatedAt = time.Now().Local()
-	user.UpdatedAt = time.Now().Local()
-
-	dbCreate := db.Begin()
-
-	if err = dbCreate.Create(&user).Error; err != nil {
-		httpResponse.Message = "phone number has already exist"
-		httpStatusCode = http.StatusBadRequest
-		return
-	}
-	dbCreate.Commit()
-
-	httpResponse.Message = "statusOK"
-	httpStatusCode = http.StatusCreated
-	return
-
+	return nil
 }

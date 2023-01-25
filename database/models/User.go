@@ -7,7 +7,7 @@ import (
 )
 
 type UserLogin struct {
-	Id           int            `json:"id" gorm:"primaryKey"`
+	Id           int            `json:"user_id" gorm:"primaryKey"`
 	UserName     string         `json:"userName""`
 	Password     string         `json:"password" binding:"min=6,max=24,required"`
 	Email        string         `json:"email"`
@@ -20,14 +20,13 @@ type UserLogin struct {
 }
 
 type User struct {
-	Id          int            `json:"id" gorm:"primaryKey"`
-	UserName    string         `json:"userName""`
-	Password    string         `json:"password" binding:"min=6,max=24,required"`
-	Email       string         `json:"email"`
-	PhoneNumber int            `json:"phoneNumber"`
-	CreatedAt   time.Time      `json:"createdAt"`
-	UpdatedAt   time.Time      `json:"updatedAt"`
-	DeletedAt   gorm.DeletedAt `json:"deletedAt" gorm:"index"`
+	Id          int       `json:"user_id" gorm:"primaryKey"`
+	UserName    string    `json:"userName""`
+	Password    string    `json:"password" binding:"min=6,max=24,required"`
+	Email       string    `json:"email"`
+	PhoneNumber int       `json:"phoneNumber"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
 }
 
 type WallpaperCollection struct {
