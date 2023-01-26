@@ -11,11 +11,11 @@ import (
 )
 
 func LoginController(c *gin.Context) {
-	var w http.ResponseWriter
 
 	var userInput models.UserLogin
 
 	if err := c.ShouldBindJSON(&userInput); err != nil {
+		panic(err)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err.Error(),
 		})
@@ -24,6 +24,7 @@ func LoginController(c *gin.Context) {
 
 	userDB, err := handler.Login(userInput)
 	if err != nil {
+		panic(err)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err.Error(),
 		})
@@ -44,21 +45,23 @@ func LoginController(c *gin.Context) {
 	token, err := tokenAlgo.SignedString(config.JWT_KEY)
 
 	if err != nil {
+		panic(err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
 		})
 		return
 	}
 
-	http.SetCookie(w, &http.Cookie{
-		Name:     "token",
-		Path:     "/",
-		Value:    token,
-		HttpOnly: true,
-	})
+	//http.SetCookie(gin.Context{}.Writer, &http.Cookie{
+	//	Name:     "token",
+	//	Path:     "/",
+	//	Value:    token,
+	//	HttpOnly: true,
+	//})
+	c.SetCookie("token", token, 1, "/", "", false, true)
 
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",
 	})
-
+	return
 }
