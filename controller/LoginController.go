@@ -23,6 +23,12 @@ func LoginController(c *gin.Context) {
 	}
 
 	userDB, err := handler.Login(userInput)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": err.Error(),
+		})
+		return
+	}
 
 	expTime := time.Now().Add(time.Minute * 1)
 	claims := &config.Claims{
