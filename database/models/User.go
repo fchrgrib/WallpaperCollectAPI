@@ -8,12 +8,12 @@ import (
 
 type UserLogin struct {
 	Id           int            `json:"user_id" gorm:"primaryKey"`
-	UserName     string         `json:"userName""`
+	UserName     string         `json:"user_name""`
 	Password     string         `json:"password" binding:"min=6,max=24,required"`
 	Email        string         `json:"email"`
-	PhoneNumber  int            `json:"phoneNumber"`
-	CreatedAt    time.Time      `json:"createdAt"`
-	UpdatedAt    time.Time      `json:"updatedAt"`
+	PhoneNumber  int            `json:"phone_number"`
+	CreatedAt    time.Time      `json:"created_at"`
+	UpdatedAt    time.Time      `json:"updated_at"`
 	DeletedAt    gorm.DeletedAt `json:"deletedAt" gorm:"index"`
 	Token        string         `json:"token"`
 	UpdatedToken string         `json:"updateToken"`
@@ -21,18 +21,17 @@ type UserLogin struct {
 
 type User struct {
 	Id          int       `json:"user_id" gorm:"primaryKey"`
-	UserName    string    `json:"userName""`
+	UserName    string    `json:"user_name""`
 	Password    string    `json:"password" binding:"min=6,max=24,required"`
 	Email       string    `json:"email"`
-	PhoneNumber int       `json:"phoneNumber"`
-	CreatedAt   time.Time `json:"createdAt"`
-	UpdatedAt   time.Time `json:"updatedAt"`
+	PhoneNumber int       `json:"phone_number"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
 }
 
 type WallpaperCollection struct {
-	ImageId   int    `json:"imageId" gorm:"primaryKey"`
-	UserId    int    `json:"userId"`
-	ImageName string `json:"imageName"`
+	UserId    int    `json:"user_id"`
+	ImageName string `json:"image_name"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt
