@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"net/http"
 	"time"
 	"walpapperCollectRestAPI/database"
@@ -39,6 +40,7 @@ func CreateUserAuth(c *gin.Context) {
 		panic(err)
 		return
 	}
+	user.Id = uuid.New()
 	user.CreatedAt = time.Now().Local()
 	user.UpdatedAt = time.Now().Local()
 
