@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"time"
 	"walpapperCollectRestAPI/database"
@@ -40,7 +41,11 @@ func CreateUserAuth(c *gin.Context) {
 		panic(err)
 		return
 	}
+
+	hashPass, _ := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+
 	user.Id = uuid.New()
+	user.Password = string(hashPass)
 	user.CreatedAt = time.Now().Local()
 	user.UpdatedAt = time.Now().Local()
 

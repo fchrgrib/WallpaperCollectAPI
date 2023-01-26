@@ -8,16 +8,14 @@ import (
 )
 
 type UserLogin struct {
-	UserName     string `json:"user_name""`
-	Password     string `json:"password" binding:"min=6,max=24,required"`
-	Token        string `json:"token"`
-	UpdatedToken string `json:"updateToken"`
+	UserName string `json:"user_name""`
+	Password string `json:"password" binding:"min=6,max=24,required"`
 }
 
 type User struct {
 	Id          uuid.UUID `json:"user_id" gorm:"primaryKey"`
-	UserName    string    `json:"user_name""`
-	Password    string    `json:"password" binding:"min=6,max=24,required"`
+	UserName    string    `json:"user_name"`
+	Password    string    `json:"password" gorm:"varchar(300)" binding:"min=6,max=24,required"`
 	Email       string    `json:"email"`
 	PhoneNumber int       `json:"phone_number"`
 	CreatedAt   time.Time `json:"created_at"`

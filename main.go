@@ -9,5 +9,6 @@ func main() {
 	routs := gin.Default()
 
 	routs.POST("/register", controller.CreateUserAuth)
+	routs.POST("/login", controller.LoginController)
 	routs.Run()
 }
