@@ -58,7 +58,7 @@ func LoginController(c *gin.Context) {
 	//	Value:    token,
 	//	HttpOnly: true,
 	//})
-	c.SetCookie("token", token, 1, "/", "", false, true)
+	c.SetCookie("token", token, 3600, "/", "", false, true)
 
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",
