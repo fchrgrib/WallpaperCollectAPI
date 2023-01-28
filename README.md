@@ -8,8 +8,7 @@ This project is an example of a REST API built using Golang and the Gin Framewor
 1. Make sure you have Go and SQLite installed on your machine.
 
 2. Clone the repository to your local machine:
-````
-bash
+````bash
 Copy code
 git clone https://github.com/fchrgrib/wallpaperCollectRestAPI.git
 ````
