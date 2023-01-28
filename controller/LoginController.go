@@ -52,35 +52,10 @@ func LoginController(c *gin.Context) {
 		return
 	}
 
-	//http.SetCookie(gin.Context{}.Writer, &http.Cookie{
-	//	Name:     "token",
-	//	Path:     "/",
-	//	Value:    token,
-	//	HttpOnly: true,
-	//})
 	c.SetCookie("token", token, 3600, "/", "", false, true)
 
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",
 	})
-
-	//var User config.Claims
-	//
-	//tokenString := c.Request.Header.Get("Cookie")
-	//if tokenString == "" {
-	//	c.JSON(401, gin.H{"error": "request does not contain an access token"})
-	//	c.Abort()
-	//	return
-	//}
-	//
-	//vals := strings.Split(tokenString, "=")
-	//
-	//tokens, err := jwt.ParseWithClaims(vals[1], &User, middleware.ValidateAccessJWT)
-	//
-	//if claims, ok := tokens.Claims.(*config.Claims); ok && tokens.Valid {
-	//	c.JSON(http.StatusOK, gin.H{
-	//		"id": claims.Id,
-	//	})
-	//}
 	return
 }
