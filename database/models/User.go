@@ -24,7 +24,6 @@ type User struct {
 
 type WallpaperCollection struct {
 	UserId    uuid.UUID `json:"user_id"`
-	ImageName string    `json:"image_name"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt

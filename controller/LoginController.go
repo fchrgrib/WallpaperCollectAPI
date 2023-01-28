@@ -31,7 +31,7 @@ func LoginController(c *gin.Context) {
 		return
 	}
 
-	expTime := time.Now().Add(time.Hour * 1)
+	expTime := time.Now().Local().Add(time.Hour * 1)
 	claims := &config.Claims{
 		Id:       userDB.Id,
 		UserName: userDB.UserName,
