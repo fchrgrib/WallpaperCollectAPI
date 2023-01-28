@@ -29,3 +29,7 @@ type WallpaperCollection struct {
 	DeletedAt gorm.DeletedAt
 	Path      string `json:"path"`
 }
+
+type Paths struct {
+	Path string `json:"path"`
+}

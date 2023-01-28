@@ -15,6 +15,7 @@ func main() {
 	privateRouts := r.Group("/wallpaper")
 	privateRouts.Use(middleware.JWT)
 	privateRouts.PUT("/upload", controller.UploadWallpaper)
+	privateRouts.GET("/your_wallpaper", controller.WallpaperCollection)
 
 	r.Run()
 }
