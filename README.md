@@ -38,5 +38,5 @@ go run main.go
 1. `POST`   /register: Register a new user
 2. `POST`   /login: Login and get a JWT
 3. `GET`    /logout : logout
-4. `GET`    /wallpapers: Get a list of all wallpapers
+4. `GET`    /wallpapers/your_wallpaper: Get a list of all wallpapers
 5. `POST`   /wallpapers/upload: Upload a new wallpaper
