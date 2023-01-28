@@ -5,6 +5,7 @@ import (
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
+	"os"
 	"time"
 	"walpapperCollectRestAPI/database"
 	"walpapperCollectRestAPI/database/models"
@@ -56,6 +57,14 @@ func CreateUserAuth(c *gin.Context) {
 		panic(err)
 		return
 	}
+
+	if err := os.MkdirAll("././assets/"+user.Id.String(), os.ModePerm); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",
 	})

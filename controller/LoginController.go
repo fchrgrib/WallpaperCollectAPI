@@ -63,5 +63,24 @@ func LoginController(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",
 	})
+
+	//var User config.Claims
+	//
+	//tokenString := c.Request.Header.Get("Cookie")
+	//if tokenString == "" {
+	//	c.JSON(401, gin.H{"error": "request does not contain an access token"})
+	//	c.Abort()
+	//	return
+	//}
+	//
+	//vals := strings.Split(tokenString, "=")
+	//
+	//tokens, err := jwt.ParseWithClaims(vals[1], &User, middleware.ValidateAccessJWT)
+	//
+	//if claims, ok := tokens.Claims.(*config.Claims); ok && tokens.Valid {
+	//	c.JSON(http.StatusOK, gin.H{
+	//		"id": claims.Id,
+	//	})
+	//}
 	return
 }
