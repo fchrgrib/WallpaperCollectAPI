@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"net/http"
 	"walpapperCollectRestAPI/database/models"
 	"walpapperCollectRestAPI/handler"
@@ -26,7 +27,9 @@ func UploadWallpaper(c *gin.Context) {
 		})
 		return
 	}
-	path := "././assets/" + id + "/" + wallpaper.Image.Filename
+	uid := uuid.New().String()
+	imageName := wallpaper.Image.Filename
+	path := "././assets/" + id + "/" + uid + "_" + imageName
 	if err := c.SaveUploadedFile(wallpaper.Image, path); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
@@ -34,7 +37,7 @@ func UploadWallpaper(c *gin.Context) {
 		return
 	}
 
-	if err := handler.AllWallpaperToDB(id, path); err != nil {
+	if err := handler.AllWallpaperToDB(id, path, uid, imageName); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
 		})

@@ -23,6 +23,8 @@ type User struct {
 }
 
 type WallpaperCollection struct {
+	ImageId   uuid.UUID `json:"image_id" gorm:"primaryKey"`
+	ImageName string    `json:"image_name"`
 	UserId    uuid.UUID `json:"user_id"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
