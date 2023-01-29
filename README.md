@@ -1,15 +1,14 @@
 # REST API for Wallpaper Collection using Golang with Gin Framework, SQLite, JWT
 
 ## Overview
-This project is an example of a REST API built using Golang and the Gin Framework, with SQLite as the database and JWT for authentication. The API allows users to create and manage a collection of wallpapers.
+This project is an example of a REST API built using Golang and the Gin Framework, with SQLite as the database and JWT for authentication. The API allows users to create and manage a collection of wallpapers, everyone can use this rest api and give some feedback to me about this code.
 
 ## Getting Started
 
 1. Make sure you have Go and SQLite installed on your machine.
 
 2. Clone the repository to your local machine:
-````
-bash
+````bash
 Copy code
 git clone https://github.com/fchrgrib/wallpaperCollectRestAPI.git
 ````
@@ -39,5 +38,5 @@ go run main.go
 1. `POST`   /register: Register a new user
 2. `POST`   /login: Login and get a JWT
 3. `GET`    /logout : logout
-4. `GET`    /wallpapers: Get a list of all wallpapers
+4. `GET`    /wallpapers/your_wallpaper: Get a list of all wallpapers
 5. `POST`   /wallpapers/upload: Upload a new wallpaper
