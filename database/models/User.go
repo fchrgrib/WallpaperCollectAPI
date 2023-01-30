@@ -24,6 +24,16 @@ type User struct {
 	UpdatedAt    time.Time      `json:"updated_at"`
 	DeletedAt    gorm.DeletedAt `json:"deleted_at"`
 }
+type UserUpdate struct {
+	UserName    string         `json:"user_name"`
+	Password    string         `json:"password" gorm:"varchar(300)" binding:"min=6,max=24,required"`
+	Email       string         `json:"email"`
+	PhoneNumber int            `json:"phone_number"`
+	Description string         `json:"description"`
+	CreatedAt   time.Time      `json:"created_at"`
+	UpdatedAt   time.Time      `json:"updated_at"`
+	DeletedAt   gorm.DeletedAt `json:"deleted_at"`
+}
 
 type WallpaperCollection struct {
 	ImageId   uuid.UUID `json:"image_id" gorm:"primaryKey"`
@@ -33,8 +43,4 @@ type WallpaperCollection struct {
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt
 	Path      string `json:"path"`
-}
-
-type Paths struct {
-	Path string `json:"path"`
 }
