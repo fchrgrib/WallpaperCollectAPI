@@ -18,6 +18,7 @@ func main() {
 	privateRouters.Use(middleware.JWT)
 	privateRouters.PUT("/upload", controller.UploadWallpaper)
 	privateRouters.GET("/your_collection", controller.WallpaperCollection)
+	privateRouters.PUT("/update_profile", controller.UpdateProfileDescription)
 
 	r.Run()
 }
