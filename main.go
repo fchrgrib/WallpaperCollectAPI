@@ -19,6 +19,7 @@ func main() {
 	privateRouters.GET("", controller.WallpaperCollection)
 
 	profileRouter := privateRouters.Group("/profile")
+	profileRouter.GET("", controller.ProfileInfo)
 	profileRouter.PUT("/update_profile", controller.UpdateProfileDescription)
 	profileRouter.PUT("/upload_profile_picture", controller.PhotoProfileUpload)
 
