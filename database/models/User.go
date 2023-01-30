@@ -25,6 +25,7 @@ type User struct {
 	DeletedAt    gorm.DeletedAt `json:"deleted_at"`
 }
 
+// tes
 type WallpaperCollection struct {
 	ImageId   uuid.UUID `json:"image_id" gorm:"primaryKey"`
 	ImageName string    `json:"image_name"`
