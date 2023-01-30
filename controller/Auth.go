@@ -50,6 +50,24 @@ func CreateUserAuth(c *gin.Context) {
 	user.CreatedAt = time.Now().Local()
 	user.UpdatedAt = time.Now().Local()
 
+	pathProfile := "././assets/" + user.Id.String() + "/profile"
+
+	user.PhotoProfile = pathProfile
+
+	if err := os.MkdirAll("././assets/"+user.Id.String()+"/wallpaper_collection", os.ModePerm); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": err.Error(),
+		})
+		return
+	}
+
+	if err := os.MkdirAll(pathProfile, os.ModePerm); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": err.Error(),
+		})
+		return
+	}
+
 	if err := db.Table("users").Create(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
@@ -57,14 +75,6 @@ func CreateUserAuth(c *gin.Context) {
 		panic(err)
 		return
 	}
-
-	if err := os.MkdirAll("././assets/"+user.Id.String(), os.ModePerm); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"status": err.Error(),
-		})
-		return
-	}
-
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",
 	})

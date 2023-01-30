@@ -29,7 +29,7 @@ func UploadWallpaper(c *gin.Context) {
 	}
 	uid := uuid.New().String()
 	imageName := wallpaper.Image.Filename
-	path := "././assets/" + id + "/" + uid + "_" + imageName
+	path := "././assets/" + id + "/wallpaper_collection/" + uid + "_" + imageName
 	if err := c.SaveUploadedFile(wallpaper.Image, path); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
