@@ -5,7 +5,6 @@ import (
 	"github.com/google/uuid"
 	"net/http"
 	"walpapperCollectRestAPI/database/models"
-	"walpapperCollectRestAPI/handler"
 	"walpapperCollectRestAPI/lib/tools"
 )
 
@@ -37,7 +36,7 @@ func UploadWallpaper(c *gin.Context) {
 		return
 	}
 
-	if err := handler.AllWallpaperToDB(id, path, uid, imageName); err != nil {
+	if err := tools.AllWallpaperToDB(id, path, uid, imageName); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
 		})
