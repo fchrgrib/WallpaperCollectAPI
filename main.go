@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	_ "github.com/tbxark/g4vercel"
 	"walpapperCollectRestAPI/controller"
 	"walpapperCollectRestAPI/lib/middleware"
 )
