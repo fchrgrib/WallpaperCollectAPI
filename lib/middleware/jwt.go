@@ -2,11 +2,11 @@ package middleware
 
 import (
 	"fmt"
+	"github.com/config"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"net/http"
 	"strings"
-	"walpapperCollectRestAPI/config"
 )
 
 func ValidateAccessJWT(token *jwt.Token) (interface{}, error) {

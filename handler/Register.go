@@ -2,10 +2,10 @@ package handler
 
 import (
 	"errors"
+	"github.com/database"
+	"github.com/database/models"
+	"github.com/lib/tools"
 	"strconv"
-	"walpapperCollectRestAPI/database"
-	"walpapperCollectRestAPI/database/models"
-	"walpapperCollectRestAPI/lib/tools"
 )
 
 func CreateUser(user models.User) error {

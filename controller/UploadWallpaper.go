@@ -1,11 +1,11 @@
 package controller
 
 import (
+	"github.com/database/models"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/lib/tools"
 	"net/http"
-	"walpapperCollectRestAPI/database/models"
-	"walpapperCollectRestAPI/lib/tools"
 )
 
 func UploadWallpaper(c *gin.Context) {
@@ -17,6 +17,13 @@ func UploadWallpaper(c *gin.Context) {
 		})
 		return
 	}
+
+	//if wallpaper.Image == nil {
+	//	c.JSON(http.StatusBadRequest, gin.H{
+	//		"status": wallpaper.Image.Filename,
+	//	})
+	//	return
+	//}
 
 	id, err := tools.GetUserId(c)
 

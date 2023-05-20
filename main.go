@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/controller"
 	"github.com/gin-gonic/gin"
-	"walpapperCollectRestAPI/controller"
-	"walpapperCollectRestAPI/lib/middleware"
+	"github.com/lib/middleware"
 )
 
 func main() {
@@ -15,7 +15,7 @@ func main() {
 
 	privateRouters := r.Group("/wallpaper")
 	privateRouters.Use(middleware.JWT)
-	privateRouters.PUT("/upload", controller.UploadWallpaper)
+	privateRouters.POST("/upload", controller.UploadWallpaper)
 	privateRouters.GET("", controller.WallpaperCollection)
 
 	profileRouter := privateRouters.Group("/profile")

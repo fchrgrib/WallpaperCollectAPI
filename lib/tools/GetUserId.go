@@ -2,12 +2,12 @@ package tools
 
 import (
 	"errors"
+	"github.com/config"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/lib/middleware"
 	"net/http"
 	"strings"
-	"walpapperCollectRestAPI/config"
-	"walpapperCollectRestAPI/lib/middleware"
 )
 
 func GetUserId(c *gin.Context) (string, error) {

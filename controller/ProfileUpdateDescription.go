@@ -1,13 +1,13 @@
 package controller
 
 import (
+	"github.com/database"
+	"github.com/database/models"
 	"github.com/gin-gonic/gin"
+	"github.com/lib/tools"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"time"
-	"walpapperCollectRestAPI/database"
-	"walpapperCollectRestAPI/database/models"
-	"walpapperCollectRestAPI/lib/tools"
 )
 
 func UpdateProfileDescription(c *gin.Context) {

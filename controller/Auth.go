@@ -1,15 +1,16 @@
 package controller
 
 import (
+	"github.com/database"
+	"github.com/database/models"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/handler"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 	"net/http"
 	"os"
 	"time"
-	"walpapperCollectRestAPI/database"
-	"walpapperCollectRestAPI/database/models"
-	"walpapperCollectRestAPI/handler"
 )
 
 func CreateUserAuth(c *gin.Context) {
@@ -49,6 +50,7 @@ func CreateUserAuth(c *gin.Context) {
 	user.Password = string(hashPass)
 	user.CreatedAt = time.Now().Local()
 	user.UpdatedAt = time.Now().Local()
+	user.DeletedAt = gorm.DeletedAt{}
 
 	pathProfile := "././assets/" + user.Id.String() + "/profile"
 
@@ -78,5 +80,5 @@ func CreateUserAuth(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",
 	})
-
+	return
 }

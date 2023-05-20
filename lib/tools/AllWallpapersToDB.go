@@ -1,11 +1,11 @@
 package tools
 
 import (
+	"github.com/database"
+	"github.com/database/models"
 	uuid2 "github.com/google/uuid"
 	uuid "github.com/satori/go.uuid"
 	"time"
-	"walpapperCollectRestAPI/database"
-	"walpapperCollectRestAPI/database/models"
 )
 
 func AllWallpaperToDB(id string, path string, uid string, imageName string) error {

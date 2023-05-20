@@ -1,12 +1,12 @@
 package controller
 
 import (
+	"github.com/database"
+	"github.com/database/models"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/lib/tools"
 	"net/http"
-	"walpapperCollectRestAPI/database"
-	"walpapperCollectRestAPI/database/models"
-	"walpapperCollectRestAPI/lib/tools"
 )
 
 func PhotoProfileUpload(c *gin.Context) {

@@ -1,9 +1,9 @@
 package handler
 
 import (
+	"github.com/database"
+	"github.com/database/models"
 	"golang.org/x/crypto/bcrypt"
-	"walpapperCollectRestAPI/database"
-	"walpapperCollectRestAPI/database/models"
 )
 
 func Login(userInput models.UserLogin) (models.User, error) {

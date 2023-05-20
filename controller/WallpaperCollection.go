@@ -2,8 +2,8 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/lib/tools"
 	"net/http"
-	"walpapperCollectRestAPI/lib/tools"
 )
 
 func WallpaperCollection(c *gin.Context) {

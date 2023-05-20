@@ -1,10 +1,9 @@
 package database
 
 import (
+	"github.com/database/models"
 	"gorm.io/driver/sqlite"
-	_ "gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"walpapperCollectRestAPI/database/models"
 )
 
 func ConnectDB() (*gorm.DB, error) {

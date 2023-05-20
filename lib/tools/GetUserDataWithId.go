@@ -2,8 +2,8 @@ package tools
 
 import (
 	"errors"
-	"walpapperCollectRestAPI/database"
-	"walpapperCollectRestAPI/database/models"
+	"github.com/database"
+	models "github.com/database/models"
 )
 
 func GetUserDataWithId(id string) (models.User, error) {

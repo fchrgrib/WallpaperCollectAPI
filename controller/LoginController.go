@@ -1,13 +1,13 @@
 package controller
 
 import (
+	"github.com/config"
+	"github.com/database/models"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/handler"
 	"net/http"
 	"time"
-	"walpapperCollectRestAPI/config"
-	"walpapperCollectRestAPI/database/models"
-	"walpapperCollectRestAPI/handler"
 )
 
 func LoginController(c *gin.Context) {
