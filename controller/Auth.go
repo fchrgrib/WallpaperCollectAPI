@@ -20,6 +20,8 @@ func CreateUserAuth(c *gin.Context) {
 		if data have an error the JSON will POST the error
 	*/
 	var user models.User
+	var userDesc models.UserOtherEmailDesc
+	var userLog models.UserLogin
 	db, err := database.ConnectDB()
 
 	if err != nil {
@@ -46,13 +48,18 @@ func CreateUserAuth(c *gin.Context) {
 
 	hashPass, _ := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 
-	user.Id = uuid.New()
-	user.Password = string(hashPass)
-	user.CreatedAt = time.Now().Local()
-	user.UpdatedAt = time.Now().Local()
-	user.DeletedAt = gorm.DeletedAt{}
+	userDesc.Id = uuid.New()
+	userDesc.UserName = user.UserName
+	userDesc.Email = user.Email
+	userDesc.PhoneNumber = user.PhoneNumber
+	userDesc.CreatedAt = time.Now().Local()
+	userDesc.UpdatedAt = time.Now().Local()
+	userDesc.DeletedAt = gorm.DeletedAt{}
 
-	pathProfile := "././assets/" + user.Id.String() + "/profile"
+	userLog.UserName = user.UserName
+	userLog.Password = string(hashPass)
+
+	pathProfile := "././assets/" + userDesc.Id.String() + "/profile"
 
 	user.PhotoProfile = pathProfile
 
@@ -70,7 +77,14 @@ func CreateUserAuth(c *gin.Context) {
 		return
 	}
 
-	if err := db.Table("users").Create(&user).Error; err != nil {
+	if err := db.Table("user").Create(&userDesc).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status": err.Error(),
+		})
+		panic(err)
+		return
+	}
+	if err := db.Table("user_other_email").Create(&userLog).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
 		})

@@ -22,7 +22,6 @@ func WallpaperCollection(c *gin.Context) {
 	c.FileFromFS("", dir2)
 	c.JSON(http.StatusOK, gin.H{
 		"user_name":    UserData.UserName,
-		"description":  UserData.Description,
 		"phone_number": UserData.PhoneNumber,
 		"email":        UserData.Email,
 	})

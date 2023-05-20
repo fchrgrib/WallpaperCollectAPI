@@ -2,44 +2,57 @@ package models
 
 import (
 	"github.com/google/uuid"
-	"gorm.io/gorm"
 	_ "gorm.io/gorm"
-	"time"
 )
 
 type UserLogin struct {
-	UserName string `json:"user_name""`
+	UserName string `json:"user_name"`
 	Password string `json:"password" binding:"min=6,max=24,required"`
 }
 
 type User struct {
-	Id           uuid.UUID      `json:"user_id" gorm:"primaryKey"`
-	UserName     string         `json:"user_name"`
-	Password     string         `json:"password" gorm:"varchar(300)" binding:"min=6,max=24,required"`
-	Email        string         `json:"email"`
-	PhoneNumber  int            `json:"phone_number"`
-	Description  string         `json:"description"`
-	PhotoProfile string         `json:"photo_profile"`
-	CreatedAt    time.Time      `json:"created_at"`
-	UpdatedAt    time.Time      `json:"updated_at"`
-	DeletedAt    gorm.DeletedAt `json:"deleted_at"`
-}
-type UserUpdate struct {
-	UserName    string         `json:"user_name"`
-	Password    string         `json:"password" gorm:"varchar(300)" binding:"min=6,max=24,required"`
-	Email       string         `json:"email"`
-	PhoneNumber int            `json:"phone_number"`
-	Description string         `json:"description"`
-	UpdatedAt   time.Time      `json:"updated_at"`
-	DeletedAt   gorm.DeletedAt `json:"deleted_at"`
+	Id           uuid.UUID `json:"user_id" gorm:"primaryKey"`
+	UserName     string    `json:"user_name" gorm:"primaryKey;varchar(15)"`
+	Email        string    `json:"email" gorm:"unique"`
+	Password     string    `json:"password" binding:"min=6,max=24,required"`
+	PhoneNumber  string    `json:"phone_number"`
+	PhotoProfile string    `json:"photo_profile"`
 }
 
 type WallpaperCollection struct {
 	ImageId   uuid.UUID `json:"image_id" gorm:"primaryKey"`
 	ImageName string    `json:"image_name"`
 	UserId    uuid.UUID `json:"user_id"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt
+	CreatedAt string
+	UpdatedAt string
+	DeletedAt string
 	Path      string `json:"path"`
+}
+
+type UserOtherEmailDesc struct {
+	Id           uuid.UUID `json:"user_id" gorm:"primaryKey;column:id"`
+	UserName     string    `json:"user_name" gorm:"primaryKey;varchar(15);column:user_name"`
+	Email        string    `json:"email" gorm:"unique;column:email"`
+	PhoneNumber  string    `json:"phone_number" gorm:"column:phone_number"`
+	PhotoProfile string    `json:"photo_profile" gorm:"column:photo_profile"`
+	CreatedAt    string    `json:"created_at" gorm:"column:created_at"`
+	UpdatedAt    string    `json:"updated_at" gorm:"column:updated_at"`
+	DeletedAt    string    `json:"deleted_at" gorm:"column:deleted_at"`
+}
+
+type WallpaperCollectionDB struct {
+	ImageId   uuid.UUID `json:"image_id" gorm:"primaryKey;column:image_id"`
+	ImageName string    `json:"image_name" gorm:"column:image_name"`
+	UserId    uuid.UUID `json:"user_id" gorm:"column:user_id"`
+	CreatedAt string    `gorm:"column:created_at"`
+	UpdatedAt string    `gorm:"column:updated_at"`
+	DeletedAt string    `gorm:"column:deleted_at"`
+	Path      string    `json:"path" gorm:"column:path"`
+	User      User      `gorm:"foreignKey:Id;references:user_id;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+}
+
+type UserOtherEmail struct {
+	UserName string `json:"user_name" gorm:"column:user_name"`
+	Password string `json:"password" binding:"min=6,max=24,required" gorm:"column:password"`
+	User     User   `gorm:"foreignKey:UserName;references:user_name;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
