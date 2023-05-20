@@ -6,8 +6,8 @@ import (
 	models "github.com/database/models"
 )
 
-func GetUserDataWithId(id string) (models.User, error) {
-	var userData models.User
+func GetUserDataWithId(id string) (models.UserOtherEmailDesc, error) {
+	var userData models.UserOtherEmailDesc
 
 	db, err := database.ConnectDB()
 	if err != nil {

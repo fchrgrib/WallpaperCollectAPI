@@ -12,8 +12,8 @@ import (
 
 func UpdateProfileDescription(c *gin.Context) {
 
-	var user models.User
-	var userUpdate models.User
+	var user models.UserOtherEmailDesc
+	var userUpdate models.UserOtherEmailDesc
 
 	db, err := database.ConnectDB()
 	if err != nil {
@@ -48,7 +48,7 @@ func UpdateProfileDescription(c *gin.Context) {
 
 	hashPass, _ := bcrypt.GenerateFromPassword([]byte(userUpdate.Password), bcrypt.DefaultCost)
 
-	userUpdate.UpdatedAt = time.Now().Local()
+	userUpdate.UpdatedAt = time.Now().Local().String()
 	userUpdate.Password = string(hashPass)
 
 	db.Table("users").Model(&user).Updates(userUpdate)

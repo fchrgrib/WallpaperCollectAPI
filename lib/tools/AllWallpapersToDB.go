@@ -25,8 +25,8 @@ func AllWallpaperToDB(id string, path string, uid string, imageName string) erro
 		ImageName: imageName,
 		UserId:    uuid2.UUID(userUid),
 		Path:      path,
-		CreatedAt: time.Now().Local(),
-		UpdatedAt: time.Now().Local(),
+		CreatedAt: time.Now().Local().String(),
+		UpdatedAt: time.Now().Local().String(),
 	}
 
 	if err := db.Table("wallpaper_collections").Create(&imageDb).Error; err != nil {
