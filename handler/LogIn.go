@@ -9,7 +9,7 @@ import (
 func Login(userInput models.UserLogin) (models.UserLogin, error) {
 	db, err := database.ConnectDB()
 	var userLogInfo models.UserLogin
-	var userDB models.UserOtherEmail
+	var userDB models.UserLogin
 
 	if err != nil {
 		panic(err)
