@@ -25,7 +25,7 @@ func UploadWallpaper(c *gin.Context) {
 	//	return
 	//}
 
-	id, err := tools.GetUserId(c)
+	id, err := tools.GetUserIdFromCookies(c)
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{

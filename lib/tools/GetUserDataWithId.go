@@ -14,7 +14,7 @@ func GetUserDataWithId(id string) (models.UserOtherEmailDesc, error) {
 		return userData, errors.New("internal server error")
 	}
 
-	if err := db.Table("users").Where("id = ?", id).First(&userData).Error; err != nil {
+	if err := db.Table("user").Where("id = ?", id).First(&userData).Error; err != nil {
 		return userData, errors.New("internal server error")
 	}
 

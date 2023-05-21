@@ -8,7 +8,7 @@ import (
 
 func WallpaperCollection(c *gin.Context) {
 
-	id, err := tools.GetUserId(c)
+	id, err := tools.GetUserIdFromCookies(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),

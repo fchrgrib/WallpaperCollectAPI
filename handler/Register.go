@@ -5,22 +5,21 @@ import (
 	"github.com/database"
 	"github.com/database/models"
 	"github.com/lib/tools"
-	"strconv"
 )
 
 func CreateUser(user models.User) error {
-	/*
+	/***
 		this function is for filtering the data from JSON POST
 		is the data is valid or not
 		this function filtering user_name, email, and phone_number
-	*/
+	***/
 	db, err := database.ConnectDB()
 	if err != nil {
 		return errors.New("internal server error")
 	}
 
 	//to validate number if the number contains some symbol
-	if !tools.ValidationNumberPhone(strconv.Itoa(user.PhoneNumber)) {
+	if !tools.ValidationNumberPhone(user.PhoneNumber) {
 		return errors.New("phone number is invalid")
 	}
 
@@ -29,20 +28,8 @@ func CreateUser(user models.User) error {
 		return errors.New("email is invalid")
 	}
 
-	//searching if email is in database or not if not the data will pass this filter
-	if err := db.Table("users").Where("email = ?", user.Email).First(&user).Error; err == nil {
-		panic(err)
-		return err
-	}
-
-	//searching if user_name is not in database if not the data will pass this filter
-	if err := db.Table("users").Where("user_name = ?", user.UserName).First(&user).Error; err == nil {
-		panic(err)
-		return err
-	}
-
-	//searching if the phone number is not in database if not the data will pass this filter
-	if err := db.Table("users").Where("phone_number = ?", user.PhoneNumber).First(&user).Error; err == nil {
+	//searching if email, user_name, phone_number are in database or not if not the data will pass this filter
+	if err := db.Table("user").Where("email = ? AND user_name = ? AND phone_number = ?", user.Email, user.UserName, user.PhoneNumber).First(&user).Error; err == nil {
 		panic(err)
 		return err
 	}

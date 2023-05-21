@@ -7,7 +7,7 @@ import (
 )
 
 func ProfileInfo(c *gin.Context) {
-	userId, err := tools.GetUserId(c)
+	userId, err := tools.GetUserIdFromCookies(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err.Error(),
@@ -24,7 +24,6 @@ func ProfileInfo(c *gin.Context) {
 	c.File(userData.PhotoProfile)
 	c.JSON(http.StatusOK, gin.H{
 		"user_name":    userData.UserName,
-		"description":  userData.Description,
 		"phone_number": userData.PhoneNumber,
 		"email":        userData.Email,
 	})

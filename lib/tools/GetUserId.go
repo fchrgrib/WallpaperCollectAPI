@@ -3,6 +3,8 @@ package tools
 import (
 	"errors"
 	"github.com/config"
+	"github.com/database"
+	"github.com/database/models"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/lib/middleware"
@@ -10,7 +12,7 @@ import (
 	"strings"
 )
 
-func GetUserId(c *gin.Context) (string, error) {
+func GetUserIdFromCookies(c *gin.Context) (string, error) {
 	var User config.Claims
 
 	tokesString := c.Request.Header.Get("Cookie")
@@ -36,4 +38,19 @@ func GetUserId(c *gin.Context) (string, error) {
 		userId = claims.Id.String()
 	}
 	return userId, nil
+}
+
+func GetUserIdFromUserName(userName string) (string, error) {
+	var user models.UserOtherEmailDesc
+
+	db, err := database.ConnectDB()
+	if err != nil {
+		return "", err
+	}
+
+	if err := db.Table("user").Where("user_name = ?", userName).First(&user).Error; err != nil {
+		return "", err
+	}
+
+	return user.Id.String(), nil
 }

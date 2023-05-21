@@ -5,9 +5,7 @@ import (
 	"github.com/database/models"
 	"github.com/gin-gonic/gin"
 	"github.com/lib/tools"
-	"golang.org/x/crypto/bcrypt"
 	"net/http"
-	"time"
 )
 
 func UpdateProfileDescription(c *gin.Context) {
@@ -23,7 +21,7 @@ func UpdateProfileDescription(c *gin.Context) {
 		return
 	}
 
-	userId, err := tools.GetUserId(c)
+	userId, err := tools.GetUserIdFromCookies(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err.Error(),
@@ -46,12 +44,14 @@ func UpdateProfileDescription(c *gin.Context) {
 		return
 	}
 
-	hashPass, _ := bcrypt.GenerateFromPassword([]byte(userUpdate.Password), bcrypt.DefaultCost)
+	if err := db.Table("user").Where("user_name = ?", &userUpdate.UserName).First(&models.UserOtherEmailDesc{}); err.Error == nil {
+		c.JSON(http.StatusNotAcceptable, gin.H{
+			"status": "user name already exist",
+		})
+		return
+	}
 
-	userUpdate.UpdatedAt = time.Now().Local().String()
-	userUpdate.Password = string(hashPass)
-
-	db.Table("users").Model(&user).Updates(userUpdate)
+	db.Table("user").Model(&user).Updates(userUpdate)
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",
 	})

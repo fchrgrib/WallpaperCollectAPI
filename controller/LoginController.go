@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/handler"
+	"github.com/lib/tools"
 	"net/http"
 	"time"
 )
@@ -31,9 +32,19 @@ func LoginController(c *gin.Context) {
 		return
 	}
 
+	var value string
+
+	if value, err = tools.GetUserIdFromUserName(userDB.UserName); err != nil {
+		panic(err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": err.Error(),
+		})
+		return
+	}
+
 	expTime := time.Now().Local().Add(time.Hour * 1)
 	claims := &config.Claims{
-		Id:       userDB.Id,
+		Id:       value,
 		UserName: userDB.UserName,
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    "go-jwt-mux",
@@ -52,7 +63,7 @@ func LoginController(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("token", token, 3600, "/", "", false, true)
+	c.SetCookie("token", token, 4*3600, "/", "", false, true)
 
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",

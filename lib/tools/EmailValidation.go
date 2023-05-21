@@ -1,17 +1,14 @@
 package tools
 
-import (
-	"regexp"
-)
-
-var emailRegex = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
+import "regexp"
 
 func ValidateEmail(e string) bool {
-	if len(e) < 3 || len(e) > 254 { //for checking the size of valid email
-		return false
-	}
 
-	if !emailRegex.MatchString(e) { // for checking is email have the symbol like emailRegex or not
+	pattern := "(.+)@wallpaper.Collect.app"
+	re := regexp.MustCompile(pattern)
+	matches := re.FindStringSubmatch(e)
+
+	if len(matches) == 3 && len(matches) > 254 {
 		return false
 	}
 

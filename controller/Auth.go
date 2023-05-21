@@ -20,7 +20,7 @@ func CreateUserAuth(c *gin.Context) {
 	*/
 	var user models.User
 	var userDesc models.UserOtherEmailDesc
-	var userLog models.UserLogin
+	var userLog models.UserOtherEmail
 	db, err := database.ConnectDB()
 
 	if err != nil {

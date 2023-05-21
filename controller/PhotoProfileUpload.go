@@ -27,7 +27,7 @@ func PhotoProfileUpload(c *gin.Context) {
 		})
 		return
 	}
-	userId, err := tools.GetUserId(c)
+	userId, err := tools.GetUserIdFromCookies(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err.Error(),
