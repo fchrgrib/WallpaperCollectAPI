@@ -31,7 +31,7 @@ func AllWallpaperToDB(id string, path string, uid string, imageName string) erro
 		UpdatedAt: &t,
 	}
 
-	if err := db.Table("wallpaper_collections").Create(&imageDb).Error; err != nil {
+	if err := db.Table("wallpaper_collect").Create(&imageDb).Error; err != nil {
 		return err
 	}
 
