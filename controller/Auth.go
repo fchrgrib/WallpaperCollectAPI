@@ -47,12 +47,14 @@ func CreateUserAuth(c *gin.Context) {
 
 	hashPass, _ := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 
+	t := time.Now().Local()
+
 	userDesc.Id = uuid.New()
 	userDesc.UserName = user.UserName
 	userDesc.Email = user.Email
 	userDesc.PhoneNumber = user.PhoneNumber
-	userDesc.CreatedAt = time.Now().Local()
-	userDesc.UpdatedAt = time.Now().Local()
+	userDesc.CreatedAt = &t
+	userDesc.UpdatedAt = &t
 	userDesc.DeletedAt = nil
 
 	userLog.UserName = user.UserName
