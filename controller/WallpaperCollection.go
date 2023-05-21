@@ -44,7 +44,7 @@ func WallpaperCollection(c *gin.Context) {
 	}
 
 	for _, value := range wallpaperCollect {
-		c.File(value.Path + value.ImageName)
+		c.File(value.Path)
 	}
 	return
 }
