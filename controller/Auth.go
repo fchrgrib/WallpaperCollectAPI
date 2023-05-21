@@ -53,6 +53,7 @@ func CreateUserAuth(c *gin.Context) {
 	userDesc.PhoneNumber = user.PhoneNumber
 	userDesc.CreatedAt = time.Now().Local()
 	userDesc.UpdatedAt = time.Now().Local()
+	userDesc.DeletedAt = nil
 
 	userLog.UserName = user.UserName
 	userLog.Password = string(hashPass)
