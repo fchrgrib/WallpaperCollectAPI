@@ -16,17 +16,17 @@ func ValidationNumberPhone(numberPhone string) bool {
 	re := regexp.MustCompile(pattern)
 	matches := re.FindStringSubmatch(numberPhone)
 
-	if len(matches) == 0 {
-		return false
+	if len(matches) != 0 {
+		return true
 	}
 
 	pattern = "+(.+)"
 	re = regexp.MustCompile(pattern)
 	matches = re.FindStringSubmatch(numberPhone)
 
-	if len(matches) == 0 {
-		return false
+	if len(matches) != 0 {
+		return true
 	}
 
-	return true
+	return false
 }
