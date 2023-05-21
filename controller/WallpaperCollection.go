@@ -40,7 +40,7 @@ func WallpaperCollection(c *gin.Context) {
 	var imageUrl []string
 
 	for _, value := range wallpaperCollect {
-		imageUrl = append(imageUrl, "wallpapercollectapi-production.up.railway.app/wallpaper/"+value.ImageId.String())
+		imageUrl = append(imageUrl, "https://wallpapercollectapi-production.up.railway.app/wallpaper/"+value.ImageId.String())
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"user_name":            UserData.UserName,
