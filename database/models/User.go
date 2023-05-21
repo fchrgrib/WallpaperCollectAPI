@@ -31,7 +31,7 @@ type WallpaperCollection struct {
 
 type UserOtherEmailDesc struct {
 	Id           uuid.UUID `json:"user_id" gorm:"primaryKey;column:id"`
-	UserName     string    `json:"user_name" gorm:"primaryKey;type:varchar(15);column:user_name"`
+	UserName     string    `json:"user_name" gorm:"primaryKey;type:varchar(150);column:user_name"`
 	Email        string    `json:"email" gorm:"unique;column:email"`
 	PhoneNumber  string    `json:"phone_number" gorm:"column:phone_number"`
 	PhotoProfile string    `json:"photo_profile" gorm:"column:photo_profile"`
