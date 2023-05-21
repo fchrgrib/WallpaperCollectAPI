@@ -1,4 +1,4 @@
-package controller
+package wallpaperpage
 
 import (
 	"github.com/database/models"

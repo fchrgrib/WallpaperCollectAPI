@@ -1,4 +1,4 @@
-package controller
+package profile
 
 import (
 	"github.com/database"

@@ -1,4 +1,4 @@
-package controller
+package wallpaperpage
 
 import (
 	"github.com/database"
@@ -40,7 +40,7 @@ func WallpaperCollection(c *gin.Context) {
 	var imageUrl []string
 
 	for _, value := range wallpaperCollect {
-		imageUrl = append(imageUrl, "https://wallpapercollectapi-production.up.railway.app/wallpaper/"+value.ImageId.String())
+		imageUrl = append(imageUrl, "http://192.168.43.236:8080/images/"+value.ImageId.String())
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"user_name":            UserData.UserName,

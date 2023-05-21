@@ -1,11 +1,11 @@
-package controller
+package logresg
 
 import (
 	"github.com/config"
 	"github.com/database/models"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/handler"
+	"github.com/handlers"
 	"github.com/lib/tools"
 	"net/http"
 	"time"
@@ -23,7 +23,7 @@ func LoginController(c *gin.Context) {
 		return
 	}
 
-	userDB, err := handler.Login(userInput)
+	userDB, err := handlers.Login(userInput)
 	if err != nil {
 		panic(err)
 		c.JSON(http.StatusBadRequest, gin.H{

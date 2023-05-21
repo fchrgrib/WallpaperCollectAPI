@@ -1,11 +1,11 @@
-package controller
+package logresg
 
 import (
 	"github.com/database"
 	"github.com/database/models"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/handler"
+	"github.com/handlers"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"os"
@@ -37,7 +37,7 @@ func CreateUserAuth(c *gin.Context) {
 		panic(err)
 		return
 	}
-	if err := handler.CreateUser(user); err != nil {
+	if err := handlers.CreateUser(user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err.Error(),
 		})
@@ -64,7 +64,7 @@ func CreateUserAuth(c *gin.Context) {
 
 	user.PhotoProfile = pathProfile
 
-	if err := os.MkdirAll("././assets/"+user.Id.String()+"/wallpaper_collection", os.ModePerm); err != nil {
+	if err := os.MkdirAll("././assets/"+userDesc.Id.String()+"/wallpaper_collection", os.ModePerm); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err.Error(),
 		})

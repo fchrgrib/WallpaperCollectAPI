@@ -8,7 +8,7 @@ import (
 )
 
 func ConnectDB() (*gorm.DB, error) {
-	sqlDb, err := sql.Open("mysql", "root:Er6v71yyEsCLkcxgPPfx@tcp(containers-us-west-99.railway.app:7370)/railway?parseTime=true")
+	sqlDb, err := sql.Open("mysql", "fchrgrib2310:Fchrgrib2310*@tcp(192.168.43.236:3306)/wallpaperdb?parseTime=true")
 
 	if err != nil {
 		panic(err)

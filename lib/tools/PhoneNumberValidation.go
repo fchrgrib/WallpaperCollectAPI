@@ -20,7 +20,7 @@ func ValidationNumberPhone(numberPhone string) bool {
 		return true
 	}
 
-	pattern = "+(.+)"
+	pattern = `\+(.+)`
 	re = regexp.MustCompile(pattern)
 	matches = re.FindStringSubmatch(numberPhone)
 
