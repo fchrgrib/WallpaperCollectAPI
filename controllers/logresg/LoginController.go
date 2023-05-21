@@ -5,7 +5,7 @@ import (
 	"github.com/database/models"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/handlers"
+	"github.com/handlers/authandlers"
 	"github.com/lib/tools"
 	"net/http"
 	"time"
@@ -23,7 +23,7 @@ func LoginController(c *gin.Context) {
 		return
 	}
 
-	userDB, err := handlers.Login(userInput)
+	userDB, err := authandlers.Login(userInput)
 	if err != nil {
 		panic(err)
 		c.JSON(http.StatusBadRequest, gin.H{

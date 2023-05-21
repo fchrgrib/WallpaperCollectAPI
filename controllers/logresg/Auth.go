@@ -5,7 +5,7 @@ import (
 	"github.com/database/models"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/handlers"
+	"github.com/handlers/authandlers"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"os"
@@ -37,7 +37,7 @@ func CreateUserAuth(c *gin.Context) {
 		panic(err)
 		return
 	}
-	if err := handlers.CreateUser(user); err != nil {
+	if err := authandlers.CreateUser(user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err.Error(),
 		})
