@@ -35,7 +35,7 @@ func GetUserIdFromCookies(c *gin.Context) (string, error) {
 	if claims, ok := token.Claims.(*config.Claims); ok && token.Valid {
 		c.Set("id", claims.Id)
 		c.Set("user_name", claims.UserName)
-		userId = claims.Id.String()
+		userId = claims.Id
 	}
 	return userId, nil
 }
