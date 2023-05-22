@@ -9,21 +9,18 @@ import (
 	"github.com/lib/middleware"
 	"github.com/models"
 	"net/http"
-	"strings"
 )
 
 func GetUserIdFromCookies(c *gin.Context) (string, error) {
 	var User config.Claims
 
-	tokesString := c.Request.Header.Get("Cookie")
+	tokesString, err := c.Cookie("token")
 
-	if tokesString == "" {
+	if err != nil {
 		return "", errors.New("your token is invalid")
 	}
 
-	code := strings.Split(tokesString, "=")
-
-	token, err := jwt.ParseWithClaims(code[1], &User, middleware.ValidateAccessJWT)
+	token, err := jwt.ParseWithClaims(tokesString, &User, middleware.ValidateAccessJWT)
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{

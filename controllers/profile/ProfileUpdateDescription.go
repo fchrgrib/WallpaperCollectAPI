@@ -6,6 +6,7 @@ import (
 	"github.com/lib/tools"
 	"github.com/models"
 	"net/http"
+	"time"
 )
 
 func UpdateProfileDescription(c *gin.Context) {
@@ -29,8 +30,7 @@ func UpdateProfileDescription(c *gin.Context) {
 		return
 	}
 
-	user, err = tools.GetUserDataWithId(userId)
-	if err != nil {
+	if err := db.Table("user").Where("user_id = ?", userId).First(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
 		})
@@ -51,8 +51,26 @@ func UpdateProfileDescription(c *gin.Context) {
 		return
 	}
 
-	db.Table("user").Model(&user).Updates(userUpdate)
+	if !tools.ValidateEmail(userUpdate.Email) {
+		c.JSON(http.StatusNotAcceptable, gin.H{
+			"status": "invalid email",
+		})
+		return
+	}
+
+	if !tools.ValidationNumberPhone(userUpdate.PhoneNumber) {
+		c.JSON(http.StatusNotAcceptable, gin.H{
+			"status": "invalid phone number",
+		})
+		return
+	}
+	t := time.Now().Local()
+	userUpdate.UpdatedAt = &t
+	user = userUpdate
+	db.Save(user)
+
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",
 	})
+	return
 }

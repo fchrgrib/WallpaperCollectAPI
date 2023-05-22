@@ -11,7 +11,7 @@ import (
 
 func PhotoProfileUpload(c *gin.Context) {
 	var ppUpload models2.PhotoProfile
-	var user models2.User
+	var user models2.UserOtherEmail
 
 	db, err := database.ConnectDB()
 	if err != nil {
