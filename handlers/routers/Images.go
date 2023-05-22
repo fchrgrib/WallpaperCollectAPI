@@ -1,10 +1,10 @@
-package routes
+package routers
 
 import (
 	"github.com/database"
-	"github.com/database/models"
 	"github.com/gin-gonic/gin"
 	"github.com/lib/middleware"
+	"github.com/models"
 )
 
 func Images(routers *gin.Engine) {

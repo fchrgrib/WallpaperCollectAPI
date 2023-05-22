@@ -1,32 +1,11 @@
 package tools
 
-import "regexp"
+import "github.com/asaskevich/govalidator"
 
 func ValidationNumberPhone(numberPhone string) bool {
-	if len(numberPhone) < 9 {
-		return false
-	}
-	var mustNotIn = regexp.MustCompile("^[a-zA-Z!#$%&'*\\/=?^_`{|}~-]$")
 
-	if mustNotIn.MatchString(numberPhone) {
-		return false
-	}
-
-	pattern := "08(.+)"
-	re := regexp.MustCompile(pattern)
-	matches := re.FindStringSubmatch(numberPhone)
-
-	if len(matches) != 0 {
+	if govalidator.IsE164(numberPhone) {
 		return true
 	}
-
-	pattern = `\+(.+)`
-	re = regexp.MustCompile(pattern)
-	matches = re.FindStringSubmatch(numberPhone)
-
-	if len(matches) != 0 {
-		return true
-	}
-
 	return false
 }

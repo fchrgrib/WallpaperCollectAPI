@@ -2,8 +2,8 @@ package tools
 
 import (
 	"github.com/database"
-	"github.com/database/models"
 	uuid2 "github.com/google/uuid"
+	"github.com/models"
 	uuid "github.com/satori/go.uuid"
 	"time"
 )

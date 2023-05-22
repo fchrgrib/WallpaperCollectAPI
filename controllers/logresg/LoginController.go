@@ -2,11 +2,11 @@ package logresg
 
 import (
 	"github.com/config"
-	"github.com/database/models"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/handlers/authandlers"
 	"github.com/lib/tools"
+	"github.com/models"
 	"net/http"
 	"time"
 )

@@ -3,8 +3,8 @@ package authandlers
 import (
 	"errors"
 	"github.com/database"
-	"github.com/database/models"
 	"github.com/lib/tools"
+	"github.com/models"
 )
 
 func CreateUser(user models.User) error {

@@ -2,16 +2,16 @@ package profile
 
 import (
 	"github.com/database"
-	"github.com/database/models"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/lib/tools"
+	models2 "github.com/models"
 	"net/http"
 )
 
 func PhotoProfileUpload(c *gin.Context) {
-	var ppUpload models.PhotoProfile
-	var user models.User
+	var ppUpload models2.PhotoProfile
+	var user models2.User
 
 	db, err := database.ConnectDB()
 	if err != nil {

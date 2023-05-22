@@ -1,10 +1,10 @@
 package wallpaperpage
 
 import (
-	"github.com/database/models"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/lib/tools"
+	"github.com/models"
 	"net/http"
 )
 

@@ -4,10 +4,10 @@ import (
 	"errors"
 	"github.com/config"
 	"github.com/database"
-	"github.com/database/models"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/lib/middleware"
+	"github.com/models"
 	"net/http"
 	"strings"
 )

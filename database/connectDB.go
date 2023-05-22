@@ -2,7 +2,7 @@ package database
 
 import (
 	"database/sql"
-	"github.com/database/models"
+	"github.com/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )

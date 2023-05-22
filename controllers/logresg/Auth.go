@@ -2,10 +2,10 @@ package logresg
 
 import (
 	"github.com/database"
-	"github.com/database/models"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/handlers/authandlers"
+	"github.com/models"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"os"
