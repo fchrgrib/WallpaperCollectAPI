@@ -1,4 +1,4 @@
-package tools
+package data
 
 import (
 	"errors"
@@ -31,23 +31,23 @@ func GetUserIdFromCookies(c *gin.Context) (string, error) {
 	var userId string
 	if claims, ok := token.Claims.(*config.Claims); ok && token.Valid {
 		c.Set("id", claims.Id)
-		c.Set("user_name", claims.UserName)
+		c.Set("email", claims.Email)
 		userId = claims.Id
 	}
 	return userId, nil
 }
 
-func GetUserIdFromUserName(userName string) (string, error) {
-	var user models.UserOtherEmailDesc
+func GetUserIdFromEmail(email string) (string, error) {
+	var user models.UserOtherEmailDescDB
 
 	db, err := database.ConnectDB()
 	if err != nil {
 		return "", err
 	}
 
-	if err := db.Table("user").Where("user_name = ?", userName).First(&user).Error; err != nil {
+	if err := db.Table("user").Where("email = ?", email).First(&user).Error; err != nil {
 		return "", err
 	}
 
-	return user.Id.String(), nil
+	return user.Id, nil
 }

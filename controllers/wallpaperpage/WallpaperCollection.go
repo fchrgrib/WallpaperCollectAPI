@@ -3,14 +3,14 @@ package wallpaperpage
 import (
 	"github.com/database"
 	"github.com/gin-gonic/gin"
-	"github.com/lib/tools"
+	"github.com/lib/utils/data"
 	"github.com/models"
 	"net/http"
 )
 
 func WallpaperCollection(c *gin.Context) {
 
-	var wallpaperCollect []models.WallpaperCollection
+	var wallpaperCollect []models.WallpaperCollectionDB
 
 	db, err := database.ConnectDB()
 
@@ -21,7 +21,7 @@ func WallpaperCollection(c *gin.Context) {
 		return
 	}
 
-	id, err := tools.GetUserIdFromCookies(c)
+	id, err := data.GetUserIdFromCookies(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
@@ -29,7 +29,7 @@ func WallpaperCollection(c *gin.Context) {
 		return
 	}
 
-	UserData, err := tools.GetUserDataWithId(id)
+	UserData, err := data.GetUserDataWithId(id)
 
 	if err := db.Table("wallpaper_collect").Where("user_id = ?", id).Find(&wallpaperCollect).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -40,7 +40,7 @@ func WallpaperCollection(c *gin.Context) {
 	var imageUrl []string
 
 	for _, value := range wallpaperCollect {
-		imageUrl = append(imageUrl, "http://192.168.43.236:8080/images/"+value.ImageId.String())
+		imageUrl = append(imageUrl, "http://192.168.43.236:8080/images/"+value.ImageId)
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"user_name":            UserData.UserName,

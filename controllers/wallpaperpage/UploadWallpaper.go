@@ -3,7 +3,7 @@ package wallpaperpage
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/lib/tools"
+	"github.com/lib/utils/data"
 	"github.com/models"
 	"net/http"
 )
@@ -25,7 +25,7 @@ func UploadWallpaper(c *gin.Context) {
 	//	return
 	//}
 
-	id, err := tools.GetUserIdFromCookies(c)
+	id, err := data.GetUserIdFromCookies(c)
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
@@ -43,7 +43,7 @@ func UploadWallpaper(c *gin.Context) {
 		return
 	}
 
-	if err := tools.AllWallpaperToDB(id, path, uid, imageName); err != nil {
+	if err := data.AllWallpaperToDB(id, path, uid, imageName); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
 		})

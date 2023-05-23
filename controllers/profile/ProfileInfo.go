@@ -2,19 +2,19 @@ package profile
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/lib/tools"
+	"github.com/lib/utils/data"
 	"net/http"
 )
 
 func ProfileInfo(c *gin.Context) {
-	userId, err := tools.GetUserIdFromCookies(c)
+	userId, err := data.GetUserIdFromCookies(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err.Error(),
 		})
 		return
 	}
-	userData, err := tools.GetUserDataWithId(userId)
+	userData, err := data.GetUserDataWithId(userId)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err.Error(),

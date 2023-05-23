@@ -17,13 +17,16 @@ func ConnectDB() (*gorm.DB, error) {
 	db, err := gorm.Open(mysql.New(mysql.Config{
 		Conn: sqlDb,
 	}), &gorm.Config{})
-	if err = db.Table("user").AutoMigrate(&models.UserOtherEmailDesc{}); err != nil {
+	if err = db.Table("user").AutoMigrate(&models.UserOtherEmailDescDB{}); err != nil {
 		return nil, err
 	}
 	if err = db.Table("wallpaper_collect").AutoMigrate(&models.WallpaperCollectionDB{}); err != nil {
 		return nil, err
 	}
-	if err = db.Table("user_other_email").AutoMigrate(&models.UserOtherEmail{}); err != nil {
+	if err = db.Table("user_other_email").AutoMigrate(&models.UserOtherEmailDB{}); err != nil {
+		return nil, err
+	}
+	if err = db.Table("photo_profile").AutoMigrate(&models.UserPhotoProfileDB{}); err != nil {
 		return nil, err
 	}
 	return db, nil

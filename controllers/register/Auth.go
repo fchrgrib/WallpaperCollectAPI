@@ -1,4 +1,4 @@
-package logresg
+package register
 
 import (
 	"github.com/database"
@@ -18,9 +18,13 @@ func CreateUserAuth(c *gin.Context) {
 		and make sure the data is has error or not
 		if data have an error the JSON will POST the error
 	*/
-	var user models.User
-	var userDesc models.UserOtherEmailDesc
-	var userLog models.UserOtherEmail
+	var (
+		userDesc         models.UserOtherEmailDescDB
+		userLog          models.UserOtherEmailDB
+		user             models.User
+		userPhotoProfile models.UserPhotoProfileDB
+	)
+
 	db, err := database.ConnectDB()
 
 	if err != nil {
@@ -49,7 +53,7 @@ func CreateUserAuth(c *gin.Context) {
 
 	t := time.Now().Local()
 
-	userDesc.Id = uuid.New()
+	userDesc.Id = uuid.New().String()
 	userDesc.UserName = user.UserName
 	userDesc.Email = user.Email
 	userDesc.PhoneNumber = user.PhoneNumber
@@ -57,14 +61,18 @@ func CreateUserAuth(c *gin.Context) {
 	userDesc.UpdatedAt = &t
 	userDesc.DeletedAt = nil
 
-	userLog.UserName = user.UserName
+	userLog.Email = user.UserName
 	userLog.Password = string(hashPass)
 
-	pathProfile := "././assets/" + userDesc.Id.String() + "/profile"
+	pathProfile := "././assets/" + userDesc.Id + "/profile"
 
 	user.PhotoProfile = pathProfile
+	userPhotoProfile = models.UserPhotoProfileDB{
+		UserId: userDesc.Id,
+		Path:   "",
+	}
 
-	if err := os.MkdirAll("././assets/"+userDesc.Id.String()+"/wallpaper_collection", os.ModePerm); err != nil {
+	if err := os.MkdirAll("././assets/"+userDesc.Id+"/wallpaper_collection", os.ModePerm); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err.Error(),
 		})
@@ -82,14 +90,18 @@ func CreateUserAuth(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
 		})
-		panic(err)
 		return
 	}
 	if err := db.Table("user_other_email").Create(&userLog).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
 		})
-		panic(err)
+		return
+	}
+	if err := db.Table("photo_profile").Create(&userPhotoProfile).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status": err.Error(),
+		})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{

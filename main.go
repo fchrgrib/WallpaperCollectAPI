@@ -13,5 +13,5 @@ func main() {
 	routers.Images(r)
 	routers.Profile(r)
 
-	r.Run("192.168.43.236:8080")
+	r.Run()
 }

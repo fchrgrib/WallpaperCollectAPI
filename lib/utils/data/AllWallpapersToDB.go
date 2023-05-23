@@ -1,10 +1,8 @@
-package tools
+package data
 
 import (
 	"github.com/database"
-	uuid2 "github.com/google/uuid"
 	"github.com/models"
-	uuid "github.com/satori/go.uuid"
 	"time"
 )
 
@@ -14,18 +12,16 @@ func AllWallpaperToDB(id string, path string, uid string, imageName string) erro
 		return err
 	}
 
-	imageUid, err := uuid.FromString(uid)
-	userUid, err := uuid.FromString(id)
 	if err != nil {
 		return err
 	}
 
 	t := time.Now().Local()
 
-	imageDb := models.WallpaperCollection{
-		ImageId:   uuid2.UUID(imageUid),
+	imageDb := models.WallpaperCollectionDB{
+		ImageId:   uid,
 		ImageName: imageName,
-		UserId:    uuid2.UUID(userUid),
+		UserId:    id,
 		Path:      path,
 		CreatedAt: &t,
 		UpdatedAt: &t,

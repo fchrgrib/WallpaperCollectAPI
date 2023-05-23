@@ -4,14 +4,18 @@ import (
 	"github.com/database"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/lib/tools"
+	"github.com/lib/utils/data"
 	models2 "github.com/models"
 	"net/http"
 )
 
 func PhotoProfileUpload(c *gin.Context) {
-	var ppUpload models2.PhotoProfile
-	var user models2.UserOtherEmail
+
+	var (
+		ppUpload       models2.PhotoProfile
+		user           models2.UserOtherEmailDescDB
+		photoProfileDB models2.UserPhotoProfileDB
+	)
 
 	db, err := database.ConnectDB()
 	if err != nil {
@@ -27,7 +31,7 @@ func PhotoProfileUpload(c *gin.Context) {
 		})
 		return
 	}
-	userId, err := tools.GetUserIdFromCookies(c)
+	userId, err := data.GetUserIdFromCookies(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err.Error(),
@@ -46,19 +50,38 @@ func PhotoProfileUpload(c *gin.Context) {
 		return
 	}
 
-	userData, err := tools.GetUserDataWithId(userId)
-	if err != nil {
+	if err := db.Table("user").Where("user_id = ?", userId).First(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
 		})
 		return
 	}
-	userData.PhotoProfile = path
 
-	if err := db.Model(&user).Updates(userData).Error; err != nil {
+	user.PhotoProfile = path
+	if err := db.Save(user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
 		})
 		return
 	}
+
+	if err := db.Table("photo_profile").Where("user_id = ?", userId).First(&photoProfileDB).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status": err.Error(),
+		})
+		return
+	}
+
+	photoProfileDB.Path = path
+	if err := db.Table("photo_profile").Save(&photoProfileDB).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": "ok",
+	})
+	return
 }

@@ -1,4 +1,4 @@
-package logresg
+package login
 
 import "github.com/gin-gonic/gin"
 

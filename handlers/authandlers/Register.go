@@ -3,7 +3,7 @@ package authandlers
 import (
 	"errors"
 	"github.com/database"
-	"github.com/lib/tools"
+	"github.com/lib/utils/validation"
 	"github.com/models"
 )
 
@@ -19,12 +19,12 @@ func CreateUser(user models.User) error {
 	}
 
 	//to validate number if the number contains some symbol
-	if !tools.ValidationNumberPhone(user.PhoneNumber) {
+	if !validation.ValidationNumberPhone(user.PhoneNumber) {
 		return errors.New("phone number is invalid")
 	}
 
 	//validating email is the string is email or not
-	if !tools.ValidateEmail(user.Email) {
+	if !validation.ValidateEmail(user.Email) {
 		return errors.New("email is invalid")
 	}
 

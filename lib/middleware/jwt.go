@@ -13,7 +13,7 @@ func ValidateAccessJWT(token *jwt.Token) (interface{}, error) {
 	if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 		return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 	}
-	return config.JWT_KEY, nil
+	return config.JwtKey, nil
 }
 func JWT(c *gin.Context) {
 	var User config.Claims
@@ -36,7 +36,7 @@ func JWT(c *gin.Context) {
 
 	if claims, ok := token.Claims.(*config.Claims); ok && token.Valid {
 		c.Set("id", claims.Id)
-		c.Set("user_name", claims.UserName)
+		c.Set("email", claims.Email)
 	}
 
 	c.Next()

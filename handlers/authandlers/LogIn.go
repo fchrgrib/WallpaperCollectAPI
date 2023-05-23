@@ -15,7 +15,7 @@ func Login(userInput models.UserLogin) (models.UserLogin, error) {
 		panic(err)
 		return userLogInfo, err
 	}
-	if err := db.Table("user_other_email").Where("user_name = ?", userInput.UserName).First(&userDB).Error; err != nil {
+	if err := db.Table("user_other_email").Where("email = ?", userInput.Email).First(&userDB).Error; err != nil {
 		panic(err)
 		return userLogInfo, err
 	}
@@ -23,7 +23,7 @@ func Login(userInput models.UserLogin) (models.UserLogin, error) {
 		panic(err)
 		return userLogInfo, err
 	}
-	userLogInfo.UserName = userDB.UserName
+	userLogInfo.Email = userDB.Email
 	userLogInfo.Password = userDB.Password
 	return userLogInfo, nil
 }

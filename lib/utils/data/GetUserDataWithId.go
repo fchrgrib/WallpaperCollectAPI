@@ -1,4 +1,4 @@
-package tools
+package data
 
 import (
 	"errors"
@@ -6,8 +6,8 @@ import (
 	"github.com/models"
 )
 
-func GetUserDataWithId(id string) (models.UserOtherEmailDesc, error) {
-	var userData models.UserOtherEmailDesc
+func GetUserDataWithId(id string) (models.UserOtherEmailDescDB, error) {
+	var userData models.UserOtherEmailDescDB
 
 	db, err := database.ConnectDB()
 	if err != nil {

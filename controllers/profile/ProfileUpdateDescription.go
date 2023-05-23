@@ -3,7 +3,8 @@ package profile
 import (
 	"github.com/database"
 	"github.com/gin-gonic/gin"
-	"github.com/lib/tools"
+	"github.com/lib/utils/data"
+	"github.com/lib/utils/validation"
 	"github.com/models"
 	"net/http"
 	"time"
@@ -11,8 +12,8 @@ import (
 
 func UpdateProfileDescription(c *gin.Context) {
 
-	var user models.UserOtherEmailDesc
-	var userUpdate models.UserOtherEmailDesc
+	var user models.UserOtherEmailDescDB
+	var userUpdate models.UserOtherEmailDescDB
 
 	db, err := database.ConnectDB()
 	if err != nil {
@@ -22,7 +23,7 @@ func UpdateProfileDescription(c *gin.Context) {
 		return
 	}
 
-	userId, err := tools.GetUserIdFromCookies(c)
+	userId, err := data.GetUserIdFromCookies(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err.Error(),
@@ -44,30 +45,29 @@ func UpdateProfileDescription(c *gin.Context) {
 		return
 	}
 
-	if err := db.Table("user").Where("user_name = ?", &userUpdate.UserName).First(&models.UserOtherEmailDesc{}); err.Error == nil {
-		c.JSON(http.StatusNotAcceptable, gin.H{
-			"status": "user name already exist",
-		})
-		return
-	}
-
-	if !tools.ValidateEmail(userUpdate.Email) {
+	if !validation.ValidateEmail(userUpdate.Email) {
 		c.JSON(http.StatusNotAcceptable, gin.H{
 			"status": "invalid email",
 		})
 		return
 	}
 
-	if !tools.ValidationNumberPhone(userUpdate.PhoneNumber) {
+	if !validation.ValidationNumberPhone(userUpdate.PhoneNumber) {
 		c.JSON(http.StatusNotAcceptable, gin.H{
 			"status": "invalid phone number",
 		})
 		return
 	}
+
 	t := time.Now().Local()
 	userUpdate.UpdatedAt = &t
 	user = userUpdate
-	db.Save(user)
+	if err := db.Save(user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status": err.Error(),
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",

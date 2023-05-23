@@ -8,7 +8,7 @@ import (
 )
 
 func Images(routers *gin.Engine) {
-	var wallpaper []models.WallpaperCollection
+	var wallpaper []models.WallpaperCollectionDB
 
 	db, err := database.ConnectDB()
 	if err != nil {
@@ -22,7 +22,7 @@ func Images(routers *gin.Engine) {
 
 	if len(wallpaper) != 0 {
 		for _, values := range wallpaper {
-			rImage.Static(values.ImageId.String(), values.Path)
+			rImage.Static(values.ImageId, values.Path)
 		}
 	}
 }

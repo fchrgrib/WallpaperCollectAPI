@@ -1,17 +1,18 @@
-package logresg
+package login
 
 import (
 	"github.com/config"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/handlers/authandlers"
-	"github.com/lib/tools"
+	"github.com/lib/utils/data"
+	"github.com/lib/utils/oauth2utility"
 	"github.com/models"
 	"net/http"
 	"time"
 )
 
-func LoginController(c *gin.Context) {
+func EmailLoginDefaultController(c *gin.Context) {
 
 	var userInput models.UserLogin
 
@@ -34,7 +35,7 @@ func LoginController(c *gin.Context) {
 
 	var value string
 
-	if value, err = tools.GetUserIdFromUserName(userDB.UserName); err != nil {
+	if value, err = data.GetUserIdFromEmail(userDB.Email); err != nil {
 		panic(err)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err.Error(),
@@ -44,8 +45,8 @@ func LoginController(c *gin.Context) {
 
 	expTime := time.Now().Local().Add(time.Hour * 1)
 	claims := &config.Claims{
-		Id:       value,
-		UserName: userDB.UserName,
+		Id:    value,
+		Email: userDB.Email,
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    "go-jwt-mux",
 			ExpiresAt: jwt.NewNumericDate(expTime),
@@ -53,7 +54,7 @@ func LoginController(c *gin.Context) {
 	}
 
 	tokenAlgo := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	token, err := tokenAlgo.SignedString(config.JWT_KEY)
+	token, err := tokenAlgo.SignedString(config.JwtKey)
 
 	if err != nil {
 		panic(err)
@@ -69,4 +70,9 @@ func LoginController(c *gin.Context) {
 		"status": "ok",
 	})
 	return
+}
+
+func EmailGoogleLoginController(c *gin.Context) {
+	state := data.RandToken()
+	c.Redirect(http.StatusTemporaryRedirect, oauth2utility.GetLoginURL(state))
 }
