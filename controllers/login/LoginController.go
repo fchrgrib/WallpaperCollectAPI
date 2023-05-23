@@ -72,6 +72,7 @@ func EmailLoginDefaultController(c *gin.Context) {
 	return
 }
 
+// EmailGoogleLoginController TODO make real Login with JWT key and Register User
 func EmailGoogleLoginController(c *gin.Context) {
 	state := data.RandToken()
 	c.Redirect(http.StatusTemporaryRedirect, oauth2utility.GetLoginURL(state))
