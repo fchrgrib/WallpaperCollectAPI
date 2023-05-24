@@ -15,6 +15,16 @@ type User struct {
 	PhoneNumber  string `json:"phone_number"`
 	PhotoProfile string `json:"photo_profile"`
 }
+type UserProfileFacebook struct {
+	ID      string `json:"id"`
+	Name    string `json:"name"`
+	Email   string `json:"email"`
+	Picture struct {
+		Data struct {
+			URL string `json:"url"`
+		} `json:"data"`
+	} `json:"picture"`
+}
 
 type PhotoProfile struct {
 	Image *multipart.FileHeader

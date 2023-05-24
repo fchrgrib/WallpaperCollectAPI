@@ -11,9 +11,3 @@ type Claims struct {
 	Email string
 	jwt.RegisteredClaims
 }
-
-type GoogleCredentials struct {
-	Cid         string `json:"c_id"`
-	CSecret     string `json:"c_secret"`
-	RedirectURL string `json:"redirect_url"`
-}

@@ -6,7 +6,6 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/handlers/authandlers"
 	"github.com/lib/utils/data"
-	"github.com/lib/utils/oauth2utility"
 	"github.com/models"
 	"net/http"
 	"time"
@@ -43,7 +42,7 @@ func EmailLoginDefaultController(c *gin.Context) {
 		return
 	}
 
-	expTime := time.Now().Local().Add(time.Hour * 1)
+	expTime := time.Now().Local().Add(time.Hour * 3)
 	claims := &config.Claims{
 		Id:    value,
 		Email: userDB.Email,
@@ -70,10 +69,4 @@ func EmailLoginDefaultController(c *gin.Context) {
 		"status": "ok",
 	})
 	return
-}
-
-// EmailGoogleLoginController TODO make real Login with JWT key and Register User
-func EmailGoogleLoginController(c *gin.Context) {
-	state := data.RandToken()
-	c.Redirect(http.StatusTemporaryRedirect, oauth2utility.GetLoginURL(state))
 }
