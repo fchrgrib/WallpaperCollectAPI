@@ -4,7 +4,7 @@ import (
 	"github.com/database"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/lib/utils/data"
+	"github.com/libs/utils/data"
 	models2 "github.com/models"
 	"net/http"
 )

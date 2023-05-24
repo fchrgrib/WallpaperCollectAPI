@@ -2,7 +2,7 @@ package profile
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/lib/utils/data"
+	"github.com/libs/utils/data"
 	"net/http"
 )
 

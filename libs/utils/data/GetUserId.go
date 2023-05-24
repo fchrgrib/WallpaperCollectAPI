@@ -6,7 +6,7 @@ import (
 	"github.com/database"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/lib/middleware"
+	"github.com/libs/middleware"
 	"github.com/models"
 	"net/http"
 )

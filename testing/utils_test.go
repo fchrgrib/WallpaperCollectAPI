@@ -1,7 +1,7 @@
 package testing
 
 import (
-	"github.com/lib/utils/validation"
+	"github.com/libs/utils/validation"
 	"testing"
 )
 

@@ -12,10 +12,6 @@ func AllWallpaperToDB(id string, path string, uid string, imageName string) erro
 		return err
 	}
 
-	if err != nil {
-		return err
-	}
-
 	t := time.Now().Local()
 
 	imageDb := models.WallpaperCollectionDB{

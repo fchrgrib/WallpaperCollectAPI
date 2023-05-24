@@ -3,7 +3,7 @@ package authandlers
 import (
 	"errors"
 	"github.com/database"
-	"github.com/lib/utils/validation"
+	"github.com/libs/utils/validation"
 	"github.com/models"
 )
 

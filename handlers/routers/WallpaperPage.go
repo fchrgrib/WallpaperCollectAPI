@@ -3,7 +3,7 @@ package routers
 import (
 	"github.com/controllers/wallpaperpage"
 	"github.com/gin-gonic/gin"
-	"github.com/lib/middleware"
+	"github.com/libs/middleware"
 )
 
 func WallpaperPage(routers *gin.Engine) {

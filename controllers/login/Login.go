@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/handlers/authandlers"
-	"github.com/lib/utils/data"
+	"github.com/libs/utils/data"
 	"github.com/models"
 	"net/http"
 	"time"

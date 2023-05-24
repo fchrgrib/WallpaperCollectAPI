@@ -3,7 +3,7 @@ package routers
 import (
 	"github.com/controllers/profile"
 	"github.com/gin-gonic/gin"
-	"github.com/lib/middleware"
+	"github.com/libs/middleware"
 )
 
 func Profile(routers *gin.Engine) {

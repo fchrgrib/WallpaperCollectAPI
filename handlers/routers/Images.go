@@ -1,9 +1,10 @@
 package routers
 
 import (
+	"github.com/controllers/wallpaperpage"
 	"github.com/database"
 	"github.com/gin-gonic/gin"
-	"github.com/lib/middleware"
+	"github.com/libs/middleware"
 	"github.com/models"
 )
 
@@ -25,4 +26,6 @@ func Images(routers *gin.Engine) {
 			rImage.Static(values.ImageId, values.Path)
 		}
 	}
+
+	rImage.DELETE("/:id/delete", wallpaperpage.DeleteWallpaperController)
 }
