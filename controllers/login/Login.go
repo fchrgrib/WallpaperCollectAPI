@@ -22,7 +22,6 @@ func EmailLoginDefaultController(c *gin.Context) {
 		})
 		return
 	}
-
 	userDB, err := authandlers.Login(userInput)
 	if err != nil {
 		panic(err)

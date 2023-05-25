@@ -61,7 +61,7 @@ func CreateUserAuth(c *gin.Context) {
 	userDesc.UpdatedAt = &t
 	userDesc.DeletedAt = nil
 
-	userLog.Email = user.UserName
+	userLog.Email = user.Email
 	userLog.Password = string(hashPass)
 
 	pathProfile := "././assets/" + userDesc.Id + "/profile"
