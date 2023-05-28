@@ -116,5 +116,9 @@ func CreateUserAuthGoogle(c *gin.Context) {
 // RedirectGoogleRegisterController TODO make real Login with JWT key and Register User
 func RedirectGoogleRegisterController(c *gin.Context) {
 	state := data.RandToken()
-	c.Redirect(http.StatusTemporaryRedirect, oauth2utility.GetGoogleRegisterURL(state))
+	c.JSON(http.StatusOK, gin.H{
+		"url": oauth2utility.GetGoogleRegisterURL(state),
+	})
+	return
+	//c.Redirect(http.StatusTemporaryRedirect, oauth2utility.GetGoogleRegisterURL(state))
 }
