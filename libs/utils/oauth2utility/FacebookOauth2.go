@@ -42,7 +42,7 @@ func init() {
 //
 // }
 func GetFacebookRegisterURL(state string) string {
-	return facebookConf.AuthCodeURL(state)
+	return GetFacebookConfRegis().AuthCodeURL(state)
 }
 func GetFacebookLoginURL(state string) string {
 	return GetFacebookConfLogin().AuthCodeURL(state)
