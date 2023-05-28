@@ -21,11 +21,11 @@ func ProfileInfo(c *gin.Context) {
 		})
 		return
 	}
-	c.File(userData.PhotoProfile)
 	c.JSON(http.StatusOK, gin.H{
-		"user_name":    userData.UserName,
-		"phone_number": userData.PhoneNumber,
-		"email":        userData.Email,
+		"user_name":     userData.UserName,
+		"phone_number":  userData.PhoneNumber,
+		"email":         userData.Email,
+		"photo_profile": userData.PhotoProfile,
 	})
 	return
 }

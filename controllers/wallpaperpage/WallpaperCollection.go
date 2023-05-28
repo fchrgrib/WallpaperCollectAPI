@@ -29,8 +29,6 @@ func WallpaperCollection(c *gin.Context) {
 		return
 	}
 
-	UserData, err := data.GetUserDataWithId(id)
-
 	if err := db.Table("wallpaper_collect").Where("user_id = ?", id).Find(&wallpaperCollect).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
@@ -43,9 +41,6 @@ func WallpaperCollection(c *gin.Context) {
 		imageUrl = append(imageUrl, "http://192.168.43.236:8080/images/"+value.ImageId)
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"user_name":            UserData.UserName,
-		"phone_number":         UserData.PhoneNumber,
-		"email":                UserData.Email,
 		"wallpaper_collection": imageUrl,
 	})
 
