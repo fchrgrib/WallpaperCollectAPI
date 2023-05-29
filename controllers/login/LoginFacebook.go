@@ -85,5 +85,9 @@ func EmailLoginFacebookController(c *gin.Context) {
 
 func RedirectFacebookLoginController(c *gin.Context) {
 	state := data.RandToken()
-	c.Redirect(http.StatusSeeOther, oauth2utility.GetFacebookLoginURL(state))
+	c.JSON(http.StatusOK, gin.H{
+		"url":    oauth2utility.GetFacebookLoginURL(state),
+		"status": "ok",
+	})
+	return
 }

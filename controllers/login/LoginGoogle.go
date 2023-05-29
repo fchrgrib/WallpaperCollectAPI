@@ -96,5 +96,9 @@ func EmailLoginGoogleController(c *gin.Context) {
 
 func RedirectGoogleLoginController(c *gin.Context) {
 	state := data.RandToken()
-	c.Redirect(http.StatusSeeOther, oauth2utility.GetGoogleLoginURL(state))
+	c.JSON(http.StatusOK, gin.H{
+		"url":    oauth2utility.GetGoogleLoginURL(state),
+		"status": "ok",
+	})
+	return
 }

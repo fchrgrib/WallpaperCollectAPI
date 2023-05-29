@@ -117,8 +117,8 @@ func CreateUserAuthGoogle(c *gin.Context) {
 func RedirectGoogleRegisterController(c *gin.Context) {
 	state := data.RandToken()
 	c.JSON(http.StatusOK, gin.H{
-		"url": oauth2utility.GetGoogleRegisterURL(state),
+		"url":    oauth2utility.GetGoogleRegisterURL(state),
+		"status": "ok",
 	})
 	return
-	//c.Redirect(http.StatusTemporaryRedirect, oauth2utility.GetGoogleRegisterURL(state))
 }

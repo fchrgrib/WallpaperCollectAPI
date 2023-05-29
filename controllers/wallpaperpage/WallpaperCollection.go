@@ -38,7 +38,7 @@ func WallpaperCollection(c *gin.Context) {
 	var imageUrl []string
 
 	for _, value := range wallpaperCollect {
-		imageUrl = append(imageUrl, "http://192.168.43.236:8080/images/"+value.ImageId)
+		imageUrl = append(imageUrl, "https://wallpapercollectapi-production.up.railway.app/images/"+value.ImageId)
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"wallpaper_collection": imageUrl,

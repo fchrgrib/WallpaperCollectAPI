@@ -104,5 +104,9 @@ func CreateUserAuthFacebook(c *gin.Context) {
 
 func RedirectFacebookRegisterController(c *gin.Context) {
 	state := data.RandToken()
-	c.Redirect(http.StatusSeeOther, oauth2utility.GetFacebookRegisterURL(state))
+	c.JSON(http.StatusOK, gin.H{
+		"url":    oauth2utility.GetFacebookRegisterURL(state),
+		"status": "ok",
+	})
+	return
 }
