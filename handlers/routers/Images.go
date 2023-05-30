@@ -23,11 +23,11 @@ func Images(routers *gin.Engine) {
 	rImage := routers.Group("/images")
 	rImage.Use(middleware.AuthWithToken)
 
-	if len(wallpaper) != 0 {
-		for _, values := range wallpaper {
-			rImage.Static(values.ImageId, values.Path)
-		}
-	}
+	//if len(wallpaper) != 0 {
+	//	for _, values := range wallpaper {
+	//		rImage.Static(values.ImageId, values.Path)
+	//	}
+	//}
 	rImage.DELETE("/:id/delete", wallpaperpage.DeleteWallpaperController)
 
 	rProfile := routers.Group("/photo_profile")
