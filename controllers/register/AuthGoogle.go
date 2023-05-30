@@ -65,7 +65,7 @@ func CreateUserAuthGoogle(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(resBody)
+	fmt.Println(GoogleUserRes)
 	return
 	//user := &models.UserOtherEmailDescDB{
 	//	Email:        GoogleUserRes["email"].(string),
