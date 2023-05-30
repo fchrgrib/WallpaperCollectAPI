@@ -12,7 +12,7 @@ type UserPhotoProfileDB struct {
 
 type UserOtherEmailDescDB struct {
 	Id           string     `json:"user_id" gorm:"primaryKey;column:id;type:varchar(155);index"`
-	UserName     string     `json:"user_name" gorm:"column:user_name"`
+	UserName     string     `json:"user_name" gorm:"column:user_name;type:varchar(155)"`
 	Email        string     `json:"email" gorm:"primaryKey;column:email;index;type:varchar(155)"`
 	PhoneNumber  string     `json:"phone_number" gorm:"column:phone_number"`
 	PhotoProfile string     `json:"photo_profile" gorm:"column:photo_profile"`
