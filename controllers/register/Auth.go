@@ -13,11 +13,11 @@ import (
 )
 
 func CreateUserAuth(c *gin.Context) {
-	/*
+	/**
 		this function is for inserting the user register data form JSON to the database
 		and make sure the data is has error or not
 		if data have an error the JSON will POST the error
-	*/
+	**/
 	var (
 		userDesc         models.UserOtherEmailDescDB
 		userLog          models.UserOtherEmailDB
