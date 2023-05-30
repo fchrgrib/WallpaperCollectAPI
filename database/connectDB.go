@@ -6,7 +6,6 @@ import (
 	"github.com/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"os"
 )
 
 func ConnectDB() (*gorm.DB, error) {
@@ -14,14 +13,14 @@ func ConnectDB() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	databaseType := os.Getenv("DATABASE_TYPE")
-	userName := os.Getenv("USER_NAME")
-	password := os.Getenv("PASSWORD")
-	host := os.Getenv("HOST")
-	port := os.Getenv("PORT")
-	schema := os.Getenv("SCHEMA")
+	//databaseType := os.Getenv("DATABASE_TYPE")
+	//userName := os.Getenv("USER_NAME")
+	//password := os.Getenv("PASSWORD")
+	//host := os.Getenv("HOST")
+	//port := os.Getenv("PORT")
+	//schema := os.Getenv("SCHEMA")
 
-	sqlDb, err := sql.Open(databaseType, userName+":"+password+"@tcp("+host+":"+port+")/"+schema+"?parseTime=true")
+	sqlDb, err := sql.Open("mysql", "root:0MVkzZzGGYCminYTLrEJ@tcp(containers-us-west-152.railway.app:6553)/railway?parseTime=true")
 
 	if err != nil {
 		return nil, err
