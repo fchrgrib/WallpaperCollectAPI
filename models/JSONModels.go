@@ -33,3 +33,7 @@ type PhotoProfile struct {
 type Wallpaper struct {
 	Image *multipart.FileHeader
 }
+
+type GoogleToken struct {
+	Token string `json:"token"`
+}

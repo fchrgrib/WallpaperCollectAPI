@@ -9,7 +9,6 @@ import (
 	"github.com/libs/utils/data"
 	"github.com/libs/utils/oauth2utility"
 	"github.com/models"
-	"golang.org/x/oauth2"
 	"io"
 	"net/http"
 	"os"
@@ -21,6 +20,7 @@ func CreateUserAuthGoogle(c *gin.Context) {
 	var (
 		userDesc         models.UserOtherEmailDescDB
 		userPhotoProfile models.UserPhotoProfileDB
+		googleToken      models.GoogleToken
 	)
 
 	db, err := database.ConnectDB()
@@ -29,21 +29,27 @@ func CreateUserAuthGoogle(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
 		})
-		panic(err)
 		return
 	}
 
-	token, err := oauth2utility.GetGoogleConfRegis().Exchange(oauth2.NoContext, c.Query("code"))
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"status": err,
+	//token, err := oauth2utility.GetGoogleConfRegis().Exchange(oauth2.NoContext, c.Query("code"))
+	//if err != nil {
+	//	c.JSON(http.StatusUnauthorized, gin.H{
+	//		"status": err,
+	//	})
+	//	return
+	//}
+	//
+	//client := oauth2utility.GetGoogleConfRegis().Client(oauth2.NoContext, token)
+
+	if err := c.ShouldBindJSON(&googleToken); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": err.Error(),
 		})
 		return
 	}
 
-	client := oauth2utility.GetGoogleConfRegis().Client(oauth2.NoContext, token)
-
-	userProfile, err := client.Get("https://www.googleapis.com/oauth2/v3/userinfo?alt=json&access_token=" + token.AccessToken)
+	userProfile, err := http.Get("https://www.googleapis.com/oauth2/v3/userinfo?alt=json&access_token=" + googleToken.Token)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err,
