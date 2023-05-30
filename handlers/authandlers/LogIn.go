@@ -12,7 +12,6 @@ func Login(userInput models.UserLogin) (models.UserLogin, error) {
 	var userDB models.UserLogin
 
 	if err != nil {
-		panic(err)
 		return userLogInfo, err
 	}
 	if err := db.Table("user_other_email").Where("email = ?", userInput.Email).First(&userDB).Error; err != nil {
