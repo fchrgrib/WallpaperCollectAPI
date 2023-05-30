@@ -3,15 +3,16 @@ package register
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"github.com/database"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/libs/utils/data"
 	"github.com/libs/utils/oauth2utility"
 	"github.com/models"
 	"io"
 	"net/http"
 	"os"
+	"time"
 )
 
 // CreateUserAuthGoogle TODO make redirect to application
@@ -65,25 +66,23 @@ func CreateUserAuthGoogle(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(GoogleUserRes)
-	return
-	//user := &models.UserOtherEmailDescDB{
-	//	Email:        GoogleUserRes["email"].(string),
-	//	UserName:     GoogleUserRes["family_name"].(string),
-	//	PhotoProfile: GoogleUserRes["picture"].(string),
-	//	PhoneNumber:  "",
-	//}
+	user := &models.UserOtherEmailDescDB{
+		Email:        GoogleUserRes["email"].(string),
+		UserName:     GoogleUserRes["family_name"].(string),
+		PhotoProfile: GoogleUserRes["picture"].(string),
+		PhoneNumber:  "",
+	}
 
-	//t := time.Now().Local()
-	//
-	//userDesc.Id = uuid.New().String()
-	//userDesc.UserName = user.UserName
-	//userDesc.Email = user.Email
-	//userDesc.PhoneNumber = user.PhoneNumber
-	//userDesc.PhotoProfile = user.PhotoProfile
-	//userDesc.CreatedAt = &t
-	//userDesc.UpdatedAt = &t
-	//userDesc.DeletedAt = nil
+	t := time.Now().Local()
+
+	userDesc.Id = uuid.New().String()
+	userDesc.UserName = user.UserName
+	userDesc.Email = user.Email
+	userDesc.PhoneNumber = user.PhoneNumber
+	userDesc.PhotoProfile = user.PhotoProfile
+	userDesc.CreatedAt = &t
+	userDesc.UpdatedAt = &t
+	userDesc.DeletedAt = nil
 
 	pathProfile := "././assets/" + userDesc.Id + "/profile"
 
