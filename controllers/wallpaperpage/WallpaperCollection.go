@@ -16,7 +16,8 @@ func WallpaperCollection(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"status": err.Error(),
+			"wallpaper_collection": "",
+			"status":               err.Error(),
 		})
 		return
 	}
@@ -24,14 +25,16 @@ func WallpaperCollection(c *gin.Context) {
 	id, err := data.GetUserIdFromCookies(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"status": err.Error(),
+			"wallpaper_collection": "",
+			"status":               err.Error(),
 		})
 		return
 	}
 
 	if err := db.Table("wallpaper_collect").Where("user_id = ?", id).Find(&wallpaperCollect).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"status": err.Error(),
+			"wallpaper_collection": "",
+			"status":               err.Error(),
 		})
 		return
 	}
@@ -42,6 +45,7 @@ func WallpaperCollection(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"wallpaper_collection": imageUrl,
+		"status":               "ok",
 	})
 
 	return

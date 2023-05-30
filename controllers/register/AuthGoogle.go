@@ -35,7 +35,9 @@ func CreateUserAuthGoogle(c *gin.Context) {
 
 	token, err := oauth2utility.GetGoogleConfRegis().Exchange(oauth2.NoContext, c.Query("code"))
 	if err != nil {
-		c.AbortWithError(http.StatusUnauthorized, err)
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"status": err,
+		})
 		return
 	}
 
@@ -43,7 +45,9 @@ func CreateUserAuthGoogle(c *gin.Context) {
 
 	userProfile, err := client.Get("https://www.googleapis.com/oauth2/v3/userinfo?alt=json&access_token=" + token.AccessToken)
 	if err != nil {
-		c.AbortWithError(http.StatusBadRequest, err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": err,
+		})
 		return
 	}
 	defer userProfile.Body.Close()

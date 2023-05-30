@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func ProfileInfo(c *gin.Context) {
+func Info(c *gin.Context) {
 	userId, err := data.GetUserIdFromCookies(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

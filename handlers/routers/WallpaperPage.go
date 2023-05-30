@@ -9,8 +9,8 @@ import (
 func WallpaperPage(routers *gin.Engine) {
 	privateRouters := routers.Group("/wallpaper")
 	privateRouters.Use(middleware.JWT)
+	privateRouters.GET("", wallpaperpage.WallpaperCollection)
 	privateRouters.POST("/upload", func(c *gin.Context) {
 		wallpaperpage.UploadWallpaper(c, routers)
 	})
-	privateRouters.GET("", wallpaperpage.WallpaperCollection)
 }

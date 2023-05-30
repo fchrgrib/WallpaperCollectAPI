@@ -4,12 +4,13 @@ import (
 	"github.com/database"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/libs/middleware"
 	"github.com/libs/utils/data"
 	models2 "github.com/models"
 	"net/http"
 )
 
-func PhotoProfileUpload(c *gin.Context) {
+func PhotoProfileUpload(c *gin.Context, router *gin.Engine) {
 
 	var (
 		ppUpload       models2.PhotoProfile
@@ -57,7 +58,7 @@ func PhotoProfileUpload(c *gin.Context) {
 		return
 	}
 
-	user.PhotoProfile = path
+	user.PhotoProfile = "https://wallpapercollectapi-production.up.railway.app/photo_profile/" + uid
 	if err := db.Save(user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
@@ -79,6 +80,10 @@ func PhotoProfileUpload(c *gin.Context) {
 		})
 		return
 	}
+
+	rProfile := router.Group("photo_profile")
+	rProfile.Use(middleware.AuthWithToken)
+	rProfile.Static(uid, path)
 
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",

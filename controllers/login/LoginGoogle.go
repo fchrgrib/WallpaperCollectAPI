@@ -32,7 +32,9 @@ func EmailLoginGoogleController(c *gin.Context) {
 
 	token, err := oauth2utility.GetGoogleConfRegis().Exchange(oauth2.NoContext, c.Query("code"))
 	if err != nil {
-		c.AbortWithError(http.StatusUnauthorized, err)
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"status": err,
+		})
 		return
 	}
 
@@ -40,7 +42,9 @@ func EmailLoginGoogleController(c *gin.Context) {
 
 	userProfile, err := client.Get("https://www.googleapis.com/oauth2/v3/userinfo?alt=json&access_token=" + token.AccessToken)
 	if err != nil {
-		c.AbortWithError(http.StatusBadRequest, err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": err,
+		})
 		return
 	}
 	defer userProfile.Body.Close()
@@ -61,7 +65,9 @@ func EmailLoginGoogleController(c *gin.Context) {
 	}
 
 	if err := db.Table("user").Where("email = ?", user.Email).First(&userDesc).Error; err != nil {
-		c.AbortWithError(http.StatusBadRequest, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status": err,
+		})
 		return
 	}
 
@@ -79,7 +85,6 @@ func EmailLoginGoogleController(c *gin.Context) {
 	tokenJWT, err := tokenAlgo.SignedString(config.JwtKey)
 
 	if err != nil {
-		panic(err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
 		})

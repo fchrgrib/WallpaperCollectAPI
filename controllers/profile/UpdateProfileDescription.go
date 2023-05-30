@@ -60,8 +60,10 @@ func UpdateProfileDescription(c *gin.Context) {
 	}
 
 	t := time.Now().Local()
-	userUpdate.UpdatedAt = &t
-	user = userUpdate
+	user.UserName = userUpdate.UserName
+	user.Email = userUpdate.Email
+	user.PhoneNumber = userUpdate.PhoneNumber
+	user.UpdatedAt = &t
 	if err := db.Save(user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),

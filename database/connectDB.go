@@ -2,16 +2,28 @@ package database
 
 import (
 	"database/sql"
+	"github.com/joho/godotenv"
 	"github.com/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"os"
 )
 
 func ConnectDB() (*gorm.DB, error) {
-	sqlDb, err := sql.Open("mysql", "root:XHHAhfZxRL02JdyJuXTm@tcp(containers-us-west-129.railway.app:7010)/railway?parseTime=true")
+	if err := godotenv.Load("././handlers/env/database.env"); err != nil {
+		return nil, err
+	}
+
+	databaseType := os.Getenv("DATABASE_TYPE")
+	userName := os.Getenv("USER_NAME")
+	password := os.Getenv("PASSWORD")
+	host := os.Getenv("HOST")
+	port := os.Getenv("PORT")
+	schema := os.Getenv("SCHEMA")
+
+	sqlDb, err := sql.Open(databaseType, userName+":"+password+"@tcp("+host+":"+port+")/"+schema+"?parseTime=true")
 
 	if err != nil {
-		panic(err)
 		return nil, err
 	}
 	db, err := gorm.Open(mysql.New(mysql.Config{

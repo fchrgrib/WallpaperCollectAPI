@@ -30,7 +30,6 @@ func CreateUserAuthFacebook(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
 		})
-		panic(err)
 		return
 	}
 
@@ -40,14 +39,15 @@ func CreateUserAuthFacebook(c *gin.Context) {
 
 	userProfile, err := client.Get("https://graph.facebook.com/v13.0/me?fields=id,name,email,picture")
 	if err != nil {
-		c.AbortWithError(http.StatusBadRequest, err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": err.Error(),
+		})
 		return
 	}
 	defer userProfile.Body.Close()
 
 	var resBody bytes.Buffer
 	_, err = io.Copy(&resBody, userProfile.Body)
-
 	if err := json.Unmarshal(resBody.Bytes(), &userProfiles); err != nil {
 		return
 	}
