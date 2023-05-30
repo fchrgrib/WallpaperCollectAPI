@@ -49,7 +49,7 @@ func CreateUserAuthGoogle(c *gin.Context) {
 		return
 	}
 
-	userProfile, err := http.Get("https://www.googleapis.com/oauth2/v3/userinfo?alt=json&access_token=" + googleToken.Token)
+	userProfile, err := http.Get("https://oauth2.googleapis.com/tokeninfo?id_token=" + googleToken.Token)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err,
