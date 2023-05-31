@@ -7,10 +7,7 @@ import (
 	"github.com/database"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/libs/utils/data"
-	"github.com/libs/utils/oauth2utility"
 	"github.com/models"
-	"golang.org/x/oauth2"
 	"io"
 	"net/http"
 	"time"
@@ -19,7 +16,10 @@ import (
 // EmailLoginGoogleController TODO make redirect to application
 func EmailLoginGoogleController(c *gin.Context) {
 
-	var userDesc models.UserOtherEmailDescDB
+	var (
+		userDesc    models.UserOtherEmailDescDB
+		googleToken models.GoogleToken
+	)
 
 	db, err := database.ConnectDB()
 	if err != nil {
@@ -30,17 +30,14 @@ func EmailLoginGoogleController(c *gin.Context) {
 		return
 	}
 
-	token, err := oauth2utility.GetGoogleConfRegis().Exchange(oauth2.NoContext, c.Query("code"))
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{
+	if err := c.ShouldBindJSON(&googleToken); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err,
 		})
 		return
 	}
 
-	client := oauth2utility.GetGoogleConfRegis().Client(oauth2.NoContext, token)
-
-	userProfile, err := client.Get("https://www.googleapis.com/oauth2/v3/userinfo?alt=json&access_token=" + token.AccessToken)
+	userProfile, err := http.Get("https://oauth2.googleapis.com/tokeninfo?id_token=" + googleToken.Token)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err,
@@ -94,15 +91,6 @@ func EmailLoginGoogleController(c *gin.Context) {
 	c.SetCookie("token", tokenJWT, 4*3600, "/", "", false, true)
 
 	c.JSON(http.StatusOK, gin.H{
-		"status": "ok",
-	})
-	return
-}
-
-func RedirectGoogleLoginController(c *gin.Context) {
-	state := data.RandToken()
-	c.JSON(http.StatusOK, gin.H{
-		"url":    oauth2utility.GetGoogleLoginURL(state),
 		"status": "ok",
 	})
 	return

@@ -6,8 +6,6 @@ import (
 	"github.com/database"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/libs/utils/data"
-	"github.com/libs/utils/oauth2utility"
 	"github.com/models"
 	"io"
 	"net/http"
@@ -32,16 +30,6 @@ func CreateUserAuthGoogle(c *gin.Context) {
 		return
 	}
 
-	//token, err := oauth2utility.GetGoogleConfRegis().Exchange(oauth2.NoContext, c.Query("code"))
-	//if err != nil {
-	//	c.JSON(http.StatusUnauthorized, gin.H{
-	//		"status": err,
-	//	})
-	//	return
-	//}
-	//
-	//client := oauth2utility.GetGoogleConfRegis().Client(oauth2.NoContext, token)
-
 	if err := c.ShouldBindJSON(&googleToken); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": err.Error(),
@@ -56,7 +44,14 @@ func CreateUserAuthGoogle(c *gin.Context) {
 		})
 		return
 	}
-	defer userProfile.Body.Close()
+	defer func(Body io.ReadCloser) {
+		if err := Body.Close(); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"status": err,
+			})
+			return
+		}
+	}(userProfile.Body)
 
 	var resBody bytes.Buffer
 	_, err = io.Copy(&resBody, userProfile.Body)
@@ -71,6 +66,13 @@ func CreateUserAuthGoogle(c *gin.Context) {
 		UserName:     GoogleUserRes["family_name"].(string),
 		PhotoProfile: GoogleUserRes["picture"].(string),
 		PhoneNumber:  "",
+	}
+
+	if err := db.Table("user").Where("email = ?", user.Email).Error; err == nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": "cannot create new user because email was existed",
+		})
+		return
 	}
 
 	t := time.Now().Local()
@@ -118,16 +120,6 @@ func CreateUserAuthGoogle(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"status": "ok",
-	})
-	return
-}
-
-// RedirectGoogleRegisterController TODO make real Login with JWT key and Register User
-func RedirectGoogleRegisterController(c *gin.Context) {
-	state := data.RandToken()
-	c.JSON(http.StatusOK, gin.H{
-		"url":    oauth2utility.GetGoogleRegisterURL(state),
 		"status": "ok",
 	})
 	return
