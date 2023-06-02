@@ -10,13 +10,15 @@ import (
 
 func WallpaperCollection(c *gin.Context) {
 
-	var wallpaperCollect []models.WallpaperCollectionDB
+	var (
+		wallpaperCollect []models.WallpaperCollectionDB
+		wallpaperStatus  []models.Images
+	)
 
 	db, err := database.ConnectDB()
-
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"wallpaper_collection": "",
+			"wallpaper_collection": wallpaperStatus,
 			"status":               err.Error(),
 		})
 		return
@@ -25,26 +27,29 @@ func WallpaperCollection(c *gin.Context) {
 	id, err := data.GetUserIdFromCookies(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"wallpaper_collection": "",
+			"wallpaper_collection": wallpaperStatus,
 			"status":               err.Error(),
 		})
 		return
 	}
 
-	if err := db.Table("wallpaper_collect").Where("user_id = ?", id).Find(&wallpaperCollect).Error; err != nil {
+	if err := db.Table("wallpaper_collect").Where("user_id = ?", id).Order("created_at").Find(&wallpaperCollect).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"wallpaper_collection": "",
+			"wallpaper_collection": wallpaperStatus,
 			"status":               err.Error(),
 		})
 		return
 	}
-	var imageUrl []string
 
 	for _, value := range wallpaperCollect {
-		imageUrl = append(imageUrl, "https://wallpapercollectapi-production.up.railway.app/images/"+value.ImageId)
+		wallpaperStatus = append(
+			wallpaperStatus, models.Images{
+				ImageUrl: "https://wallpapercollectapi-production.up.railway.app/images/" + value.ImageId,
+				ImageId:  value.ImageId,
+			})
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"wallpaper_collection": imageUrl,
+		"wallpaper_collection": wallpaperStatus,
 		"status":               "ok",
 	})
 

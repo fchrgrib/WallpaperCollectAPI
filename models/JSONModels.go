@@ -15,6 +15,7 @@ type User struct {
 	PhoneNumber  string `json:"phone_number"`
 	PhotoProfile string `json:"photo_profile"`
 }
+
 type UserProfileFacebook struct {
 	ID      string `json:"id"`
 	Name    string `json:"name"`
@@ -24,6 +25,11 @@ type UserProfileFacebook struct {
 			URL string `json:"url"`
 		} `json:"data"`
 	} `json:"picture"`
+}
+
+type Images struct {
+	ImageUrl string `json:"image_url"`
+	ImageId  string `json:"image_id"`
 }
 
 type PhotoProfile struct {
