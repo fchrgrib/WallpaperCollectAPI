@@ -44,7 +44,7 @@ func WallpaperCollection(c *gin.Context) {
 	for _, value := range wallpaperCollect {
 		wallpaperStatus = append(
 			wallpaperStatus, models.Images{
-				ImageUrl: "https://wallpapercollectapi-production.up.railway.app/images/" + value.ImageId,
+				ImageUrl: "https://wallpapercollectapi-production-c728.up.railway.app/images/" + value.ImageId,
 				ImageId:  value.ImageId,
 			})
 	}

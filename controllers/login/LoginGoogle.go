@@ -13,7 +13,6 @@ import (
 	"time"
 )
 
-// EmailLoginGoogleController TODO make redirect to application
 func EmailLoginGoogleController(c *gin.Context) {
 
 	var (
@@ -44,7 +43,14 @@ func EmailLoginGoogleController(c *gin.Context) {
 		})
 		return
 	}
-	defer userProfile.Body.Close()
+	defer func(Body io.ReadCloser) {
+		if err := Body.Close(); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"status": err,
+			})
+			return
+		}
+	}(userProfile.Body)
 
 	var resBody bytes.Buffer
 	_, err = io.Copy(&resBody, userProfile.Body)

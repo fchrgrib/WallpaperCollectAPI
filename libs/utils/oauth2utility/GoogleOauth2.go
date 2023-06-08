@@ -47,7 +47,6 @@ import (
 //		"photo_profile": userBody.PhotoProfile,
 //		"phone_number":  "",
 //	})
-//	// TODO make redirect to android app root
 //}
 
 func GetGoogleRegisterURL(state string) string {
