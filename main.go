@@ -8,7 +8,7 @@ import (
 func main() {
 
 	r := gin.Default()
-	r.RedirectTrailingSlash = true
+	r.RedirectFixedPath = true
 	routers.UserAuth(r)
 	routers.WallpaperPage(r)
 	routers.Images(r)
