@@ -62,10 +62,9 @@ func UploadWallpaper(c *gin.Context, router *gin.Engine) {
 	}
 
 	if fileStat.Size() != 0 {
-		router.RedirectTrailingSlash = true
+
 		rImage := router.Group("/images")
 		rImage.Use(middleware.AuthWithToken)
-
 		rImage.Static(uid, path)
 	}
 
