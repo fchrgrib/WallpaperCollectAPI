@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"github.com/config"
 	"github.com/database"
 	"github.com/gin-gonic/gin"
@@ -38,6 +39,7 @@ func AuthWithToken(c *gin.Context) {
 		c.Next()
 		return
 	}
+	fmt.Println(err)
 
 	c.AbortWithStatus(http.StatusUnauthorized)
 }
