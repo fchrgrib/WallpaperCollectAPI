@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"net/http"
-	"strings"
 )
 
 func ValidateAccessJWT(token *jwt.Token) (interface{}, error) {
@@ -18,16 +17,14 @@ func ValidateAccessJWT(token *jwt.Token) (interface{}, error) {
 func JWT(c *gin.Context) {
 	var User config.Claims
 
-	tokenString := c.Request.Header.Get("Cookie")
-	if tokenString == "" {
+	tokenString, err := c.Cookie("token")
+	if err != nil {
 		c.JSON(401, gin.H{"error": "request does not contain an access token"})
 		c.Abort()
 		return
 	}
 
-	vals := strings.Split(tokenString, "=")
-
-	token, err := jwt.ParseWithClaims(vals[1], &User, ValidateAccessJWT)
+	token, err := jwt.ParseWithClaims(tokenString, &User, ValidateAccessJWT)
 
 	if err != nil {
 		c.AbortWithStatus(http.StatusUnauthorized)

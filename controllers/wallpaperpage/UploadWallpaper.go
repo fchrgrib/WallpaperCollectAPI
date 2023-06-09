@@ -7,6 +7,7 @@ import (
 	"github.com/libs/utils/data"
 	"github.com/models"
 	"net/http"
+	"os"
 )
 
 func UploadWallpaper(c *gin.Context, router *gin.Engine) {
@@ -44,10 +45,26 @@ func UploadWallpaper(c *gin.Context, router *gin.Engine) {
 		return
 	}
 
-	if wallpaper.Image != nil {
+	file, err := os.Open(path)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": err.Error(),
+		})
+		return
+	}
+
+	fileStat, err := file.Stat()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": err.Error(),
+		})
+		return
+	}
+
+	if fileStat.Size() != 0 {
 		rImage := router.Group("/images")
 		rImage.Use(middleware.AuthWithToken)
-		go rImage.Static(uid, path)
+		rImage.Static(uid, path)
 	}
 
 	c.JSON(http.StatusOK, gin.H{
