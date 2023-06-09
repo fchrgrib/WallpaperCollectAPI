@@ -64,6 +64,9 @@ func UploadWallpaper(c *gin.Context, router *gin.Engine) {
 
 		rImage := router.Group("/images")
 		//rImage.Use(middleware.AuthWithToken)
+		rImage.GET(uid, func(c *gin.Context) {
+			c.File(path)
+		})
 		rImage.Static(uid, path)
 	}
 
