@@ -47,7 +47,7 @@ func UploadWallpaper(c *gin.Context, router *gin.Engine) {
 	if wallpaper.Image != nil {
 		rImage := router.Group("/images")
 		rImage.Use(middleware.AuthWithToken)
-		rImage.Static(uid, path)
+		go rImage.Static(uid, path)
 	}
 
 	c.JSON(http.StatusOK, gin.H{
