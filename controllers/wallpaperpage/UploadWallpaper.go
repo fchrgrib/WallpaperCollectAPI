@@ -67,7 +67,6 @@ func UploadWallpaper(c *gin.Context, router *gin.Engine) {
 		rImage.GET(uid, func(c *gin.Context) {
 			c.File(path)
 		})
-		rImage.Static(uid, path)
 	}
 
 	c.JSON(http.StatusOK, gin.H{
