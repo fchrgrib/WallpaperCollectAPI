@@ -19,7 +19,7 @@ func CreateUserAuth(c *gin.Context) {
 		if data have an error the JSON will POST the error
 	**/
 	var (
-		userDesc         models.UserOtherEmailDescDB
+		userDesc         models.UserDescDB
 		userLog          models.UserOtherEmailDB
 		user             models.User
 		userPhotoProfile models.UserPhotoProfileDB

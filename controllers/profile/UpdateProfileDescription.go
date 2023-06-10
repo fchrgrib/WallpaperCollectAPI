@@ -12,8 +12,8 @@ import (
 
 func UpdateProfileDescription(c *gin.Context) {
 
-	var user models.UserOtherEmailDescDB
-	var userUpdate models.UserOtherEmailDescDB
+	var user models.UserDescDB
+	var userUpdate models.UserDescDB
 
 	db, err := database.ConnectDB()
 	if err != nil {

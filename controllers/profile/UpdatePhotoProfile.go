@@ -13,7 +13,7 @@ import (
 
 func UpdatePhotoProfile(c *gin.Context, router *gin.Engine) {
 	var (
-		user               models.UserOtherEmailDescDB
+		user               models.UserDescDB
 		photoProfileUser   models.UserPhotoProfileDB
 		photoProfileUpload models.PhotoProfile
 	)

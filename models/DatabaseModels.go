@@ -10,7 +10,7 @@ type UserPhotoProfileDB struct {
 	Path   string `json:"path" gorm:"column:path"`
 }
 
-type UserOtherEmailDescDB struct {
+type UserDescDB struct {
 	Id           string     `json:"user_id" gorm:"primaryKey;column:id;varchar(155);index"`
 	UserName     string     `json:"user_name" gorm:"column:user_name"`
 	Email        string     `json:"email" gorm:"primaryKey;column:email;index;type:varchar(155)"`

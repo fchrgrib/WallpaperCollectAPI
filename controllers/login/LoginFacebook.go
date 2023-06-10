@@ -20,7 +20,7 @@ import (
 func EmailLoginFacebookController(c *gin.Context) {
 	var (
 		userProfiles models.UserProfileFacebook
-		user         models.UserOtherEmailDescDB
+		user         models.UserDescDB
 	)
 
 	db, err := database.ConnectDB()

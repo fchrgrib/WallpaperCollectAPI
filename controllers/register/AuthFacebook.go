@@ -19,7 +19,7 @@ import (
 // CreateUserAuthFacebook TODO make redirect to application
 func CreateUserAuthFacebook(c *gin.Context) {
 	var (
-		userDesc         models.UserOtherEmailDescDB
+		userDesc         models.UserDescDB
 		userPhotoProfile models.UserPhotoProfileDB
 		userProfiles     models.UserProfileFacebook
 	)

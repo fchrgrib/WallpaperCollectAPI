@@ -16,7 +16,7 @@ import (
 func EmailLoginGoogleController(c *gin.Context) {
 
 	var (
-		userDesc    models.UserOtherEmailDescDB
+		userDesc    models.UserDescDB
 		googleToken models.GoogleToken
 	)
 
@@ -60,7 +60,7 @@ func EmailLoginGoogleController(c *gin.Context) {
 		return
 	}
 
-	user := &models.UserOtherEmailDescDB{
+	user := &models.UserDescDB{
 		Email:        GoogleUserRes["email"].(string),
 		UserName:     GoogleUserRes["family_name"].(string),
 		PhotoProfile: GoogleUserRes["picture"].(string),

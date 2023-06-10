@@ -14,7 +14,7 @@ func PhotoProfileUpload(c *gin.Context, router *gin.Engine) {
 
 	var (
 		ppUpload       models2.PhotoProfile
-		user           models2.UserOtherEmailDescDB
+		user           models2.UserDescDB
 		photoProfileDB models2.UserPhotoProfileDB
 	)
 

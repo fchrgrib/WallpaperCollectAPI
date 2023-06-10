@@ -28,7 +28,7 @@ func ConnectDB() (*gorm.DB, error) {
 	db, err := gorm.Open(mysql.New(mysql.Config{
 		Conn: sqlDb,
 	}), &gorm.Config{})
-	if err = db.Table("user").AutoMigrate(&models.UserOtherEmailDescDB{}); err != nil {
+	if err = db.Table("user").AutoMigrate(&models.UserDescDB{}); err != nil {
 		return nil, err
 	}
 	if err = db.Table("wallpaper_collect").AutoMigrate(&models.WallpaperCollectionDB{}); err != nil {

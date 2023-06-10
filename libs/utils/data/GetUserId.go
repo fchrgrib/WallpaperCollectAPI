@@ -38,7 +38,7 @@ func GetUserIdFromCookies(c *gin.Context) (string, error) {
 }
 
 func GetUserIdFromEmail(email string) (string, error) {
-	var user models.UserOtherEmailDescDB
+	var user models.UserDescDB
 
 	db, err := database.ConnectDB()
 	if err != nil {

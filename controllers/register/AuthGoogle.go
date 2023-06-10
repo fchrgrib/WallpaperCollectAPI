@@ -16,7 +16,7 @@ import (
 // CreateUserAuthGoogle TODO make redirect to application
 func CreateUserAuthGoogle(c *gin.Context) {
 	var (
-		userDesc         models.UserOtherEmailDescDB
+		userDesc         models.UserDescDB
 		userPhotoProfile models.UserPhotoProfileDB
 		googleToken      models.GoogleToken
 	)
@@ -61,14 +61,14 @@ func CreateUserAuthGoogle(c *gin.Context) {
 		return
 	}
 
-	user := &models.UserOtherEmailDescDB{
+	user := &models.UserDescDB{
 		Email:        GoogleUserRes["email"].(string),
 		UserName:     GoogleUserRes["family_name"].(string),
 		PhotoProfile: GoogleUserRes["picture"].(string),
 		PhoneNumber:  "",
 	}
 
-	if err := db.Table("user").Where("email = ?", user.Email).Error; err == nil {
+	if err := db.Table("user").Where("email = ?", user.Email).First(&models.UserDescDB{}).Error; err == nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": "cannot create new user because email was existed",
 		})
