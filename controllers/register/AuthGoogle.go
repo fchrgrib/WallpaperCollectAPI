@@ -68,7 +68,7 @@ func CreateUserAuthGoogle(c *gin.Context) {
 		PhoneNumber:  "",
 	}
 
-	if err := db.Table("user").Where("email = ?", user.Email).Error; err == nil {
+	if err := db.Table("user").Where("email = ?", user.Email).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": "cannot create new user because email was existed",
 		})
