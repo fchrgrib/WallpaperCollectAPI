@@ -17,6 +17,7 @@ import (
 func CreateUserAuthGoogle(c *gin.Context) {
 	var (
 		userDesc         models.UserDescDB
+		justCheck        models.UserDescDB
 		userPhotoProfile models.UserPhotoProfileDB
 		googleToken      models.GoogleToken
 	)
@@ -68,7 +69,7 @@ func CreateUserAuthGoogle(c *gin.Context) {
 		PhoneNumber:  "",
 	}
 
-	if err := db.Table("user").Where("email = ?", user.Email).First(&models.UserDescDB{}).Error; err == nil {
+	if _ = db.Table("user").Where("email = ?", user.Email).First(&justCheck); justCheck.Email != "" {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": "cannot create new user because email was existed",
 		})
