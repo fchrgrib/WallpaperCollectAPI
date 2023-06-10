@@ -1,11 +1,11 @@
-# REST API for Wallpaper Collection using Golang with Gin Framework, SQLite, JWT
+# WallpaperCollectionAPI
 
 ## Overview
-This project is an example of a REST API built using Golang and the Gin Framework, with SQLite as the database and JWT for authentication. The API allows users to create and manage a collection of wallpapers, everyone can use this rest api and give some feedback to me about this code.
+an exclusive API for wallpaperCollectApp. you can login,register,collect image,update profile in this API. I use MySQL for database with using GORM for manipulate relation of database and also Gin Framework for build this API. I deploy this API in https://wallpapercollectapi-production-c728.up.railway.app/. feel free to feedback this API.
 
 ## Getting Started
 
-1. Make sure you have Go and SQLite installed on your machine.
+1. Make sure you have Go and SQL installed on your machine.
 
 2. Clone the repository to your local machine:
 ````bash
@@ -16,7 +16,7 @@ git clone https://github.com/fchrgrib/wallpaperCollectRestAPI.git
 ````
 go get -v github.com/gin-gonic/gin
 go get -v github.com/jinzhu/gorm
-go get -v github.com/jinzhu/gorm/dialects/sqlite
+go get -v github.com/jinzhu/gorm/dialects/sql
 go get -v github.com/dgrijalva/jwt-go
 ````
 4. Create a .env file in the root of the project and set your JWT secret key:
@@ -35,11 +35,21 @@ go run main.go
 
 ## Endpoints
 
-1. `POST`   /register: Register a new user
-2. `POST`   /login: Login and get a JWT
+### Unprotected
+1. `POST`   /register-email-default: Register a new user
+2. `POST`   /login-email-default: Login and get a JWT
 3. `GET`    /logout : logout
-4. `GET`    /wallpaper: Get a list of all wallpapers
-5. `POST`   /wallpaper/upload: Upload a new wallpaper
-6. `GET`    /wallpaper/profile: to get all user info
-7. `PUT`    /wallpaper/profile/update_profile: for updating your profile
-8. `PUT`    /wallpaper/profile/upload_profile_picture: to upload your profile picture
+4. `GET`    /login-google-session
+5. `GET`    /register-goolgle-session
+6. `GET`    /login-facebook-session
+7. `GET`    /register-facebook-session
+
+### Protected
+1. `GET`    /wallpaper: Get a list of all wallpapers
+2. `POST`   /wallpaper/upload: Upload a new wallpaper
+3. `GET`    /wallpaper/profile: to get all user info
+4. `PUT`    /wallpaper/profile/update_profile: for updating your profile
+5. `PUT`    /wallpaper/profile/upload_profile_picture: to upload your profile picture
+6. `GET`    /images/:id
+7. `GET`    /images/:id/download
+8. `DELETE` /images/:id/delete
