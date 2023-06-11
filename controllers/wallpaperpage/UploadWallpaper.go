@@ -1,6 +1,7 @@
 package wallpaperpage
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/libs/utils/data"
@@ -18,6 +19,8 @@ func UploadWallpaper(c *gin.Context, router *gin.Engine) {
 		})
 		return
 	}
+
+	fmt.Println("Ini cuy : " + wallpaper.Image.Filename)
 
 	id, err := data.GetUserIdFromCookies(c)
 
