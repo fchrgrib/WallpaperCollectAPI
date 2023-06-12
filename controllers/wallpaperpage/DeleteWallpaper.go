@@ -27,6 +27,9 @@ func DeleteWallpaperController(c *gin.Context) {
 	}
 
 	if err := os.Remove(wallpaper.Path); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": err,
+		})
 		return
 	}
 
@@ -36,5 +39,10 @@ func DeleteWallpaperController(c *gin.Context) {
 		})
 		return
 	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": "ok",
+	})
+	return
 
 }
