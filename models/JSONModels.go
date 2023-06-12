@@ -28,8 +28,9 @@ type UserProfileFacebook struct {
 }
 
 type Images struct {
-	ImageUrl string `json:"image_url"`
-	ImageId  string `json:"image_id"`
+	ImageUrl  string `json:"image_url"`
+	ImageName string `json:"image_name"`
+	ImageId   string `json:"image_id"`
 }
 
 type PhotoProfile struct {
