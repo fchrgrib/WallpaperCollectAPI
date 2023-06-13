@@ -59,7 +59,7 @@ func PhotoProfileUpload(c *gin.Context, router *gin.Engine) {
 	}
 
 	user.PhotoProfile = "https://wallpapercollectapi-production.up.railway.app/photo_profile/" + uid
-	if err := db.Save(user).Error; err != nil {
+	if err := db.Table("user").Save(user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
 		})

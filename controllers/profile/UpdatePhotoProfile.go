@@ -4,7 +4,6 @@ import (
 	"github.com/database"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/libs/middleware"
 	"github.com/libs/utils/data"
 	"github.com/models"
 	"net/http"
@@ -74,22 +73,42 @@ func UpdatePhotoProfile(c *gin.Context, router *gin.Engine) {
 
 	photoProfileUser.Path = path
 	user.PhotoProfile = "https://wallpapercollectapi-production.up.railway.app/photo_profile/" + uid
-	if err := db.Save(&photoProfileUser).Error; err != nil {
+	if err := db.Table("photo_profile").Save(&photoProfileUser).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err,
 		})
 		return
 	}
-	if err := db.Save(&user).Error; err != nil {
+	if err := db.Table("user").Save(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err,
 		})
 		return
 	}
 
-	rProfile := router.Group("photo_profile")
-	rProfile.Use(middleware.AuthWithToken)
-	rProfile.Static(uid, path)
+	file, err := os.Open(path)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": err.Error(),
+		})
+		return
+	}
+
+	fileStat, err := file.Stat()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": err.Error(),
+		})
+		return
+	}
+
+	if fileStat.Size() != 0 {
+		rProfile := router.Group("photo_profile")
+		//rProfile.Use(middleware.AuthWithToken)
+		rProfile.GET(uid, func(c *gin.Context) {
+			c.File(path)
+		})
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",
