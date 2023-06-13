@@ -33,7 +33,7 @@ func WallpaperCollection(c *gin.Context) {
 		return
 	}
 
-	if err := db.Table("wallpaper_collect").Where("user_id = ?", id).Order("created_at").Find(&wallpaperCollect).Error; err != nil {
+	if err := db.Table("wallpaper_collect").Where("user_id = ?", id).Order("created_at asc").Find(&wallpaperCollect).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"wallpaper_collection": wallpaperStatus,
 			"status":               err.Error(),

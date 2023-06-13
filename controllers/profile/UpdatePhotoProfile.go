@@ -34,7 +34,7 @@ func UpdatePhotoProfile(c *gin.Context, router *gin.Engine) {
 		return
 	}
 
-	if err := db.Table("user").Where("user_id = ?", userId).First(&user).Error; err != nil {
+	if err := db.Table("user").Where("id = ?", userId).First(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err,
 		})
