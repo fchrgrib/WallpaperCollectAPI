@@ -12,7 +12,7 @@ func Profile(routers *gin.Engine) {
 	profileRouter := privateRouters.Group("/profile")
 	profileRouter.GET("", profile.Info)
 	profileRouter.PUT("/update_profile", profile.UpdateProfileDescription)
-	privateRouters.PUT("/update_photo_profile", func(c *gin.Context) {
+	privateRouters.PUT("/update_profile_picture", func(c *gin.Context) {
 		profile.UpdatePhotoProfile(c, routers)
 	})
 	profileRouter.POST("/upload_profile_picture", func(c *gin.Context) {
