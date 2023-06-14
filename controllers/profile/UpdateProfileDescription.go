@@ -31,7 +31,7 @@ func UpdateProfileDescription(c *gin.Context) {
 		return
 	}
 
-	if err := db.Table("user").Where("user_id = ?", userId).First(&user).Error; err != nil {
+	if err := db.Table("user").Where("id = ?", userId).First(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
 		})

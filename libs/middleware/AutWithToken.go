@@ -5,11 +5,15 @@ import (
 	"github.com/database"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/models"
 	"net/http"
 )
 
 func AuthWithToken(c *gin.Context) {
-	var User config.Claims
+	var (
+		User          config.Claims
+		justCheckUser models.UserDescDB
+	)
 
 	_token, err := c.Cookie("token")
 
@@ -34,7 +38,7 @@ func AuthWithToken(c *gin.Context) {
 		return
 	}
 
-	if err := db.Table("user").Where("id = ?", userId).Error; err == nil {
+	if _ = db.Table("user").Where("id = ?", userId).First(&justCheckUser); justCheckUser.Id != "" {
 		c.Next()
 		return
 	}

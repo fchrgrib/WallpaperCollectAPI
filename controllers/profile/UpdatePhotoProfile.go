@@ -4,6 +4,7 @@ import (
 	"github.com/database"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/libs/middleware"
 	"github.com/libs/utils/data"
 	"github.com/models"
 	"net/http"
@@ -104,7 +105,7 @@ func UpdatePhotoProfile(c *gin.Context, router *gin.Engine) {
 
 	if fileStat.Size() != 0 {
 		rProfile := router.Group("photo_profile")
-		//rProfile.Use(middleware.AuthWithToken)
+		rProfile.Use(middleware.AuthWithToken)
 		rProfile.GET(uid, func(c *gin.Context) {
 			c.File(path)
 		})
