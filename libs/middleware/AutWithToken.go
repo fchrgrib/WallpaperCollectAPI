@@ -38,7 +38,7 @@ func AuthWithToken(c *gin.Context) {
 		return
 	}
 
-	if _ = db.Table("user").Where("id = ?", userId).First(&justCheckUser); justCheckUser.Id != "" {
+	if _ = db.Table("user").Where("id = ?", userId).First(&justCheckUser); justCheckUser.Id == "" {
 		c.Next()
 		return
 	}
