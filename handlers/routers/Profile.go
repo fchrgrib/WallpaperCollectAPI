@@ -14,8 +14,7 @@ func Profile(routers *gin.Engine) {
 	profileRouter.GET("", profile.Info)
 	profileRouter.PUT("/update_profile_desc", profile.UpdateProfileDescription)
 
-	rProfile := routers.Group("photo_profile")
-	rProfile.Use(middleware.AuthWithToken)
+	rProfile := privateRouters.Group("photo_profile")
 
 	profileRouter.PUT("/update_profile_picture", func(c *gin.Context) {
 		profile.UpdatePhotoProfile(c, rProfile)
