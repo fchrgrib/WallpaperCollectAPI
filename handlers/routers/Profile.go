@@ -11,6 +11,7 @@ func Profile(routers *gin.Engine) {
 	privateRouters := routers.Group("/wallpaper")
 	privateRouters.Use(middleware.JWT)
 	profileRouter := privateRouters.Group("/profile")
+	profileRouter.DELETE("/delete", profile.UserDelete)
 	profileRouter.GET("", profile.Info)
 	profileRouter.PUT("/update_profile_desc", profile.UpdateProfileDescription)
 
