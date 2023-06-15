@@ -6,7 +6,7 @@ import (
 )
 
 type UserPhotoProfileDB struct {
-	UserId string `json:"user_id" gorm:"column:user_id;type:varchar(155);primaryKey"`
+	UserId string `json:"user_id" gorm:"column:user_id;type:varchar(155);primaryKey;index"`
 	Path   string `json:"path" gorm:"column:path"`
 }
 
