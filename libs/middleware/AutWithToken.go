@@ -23,6 +23,10 @@ func AuthWithToken(c *gin.Context) {
 	}
 
 	token, err := jwt.ParseWithClaims(_token, &User, ValidateAccessJWT)
+	if err != nil {
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
 
 	var userId string
 	if claims, ok := token.Claims.(*config.Claims); ok && token.Valid {
@@ -38,7 +42,7 @@ func AuthWithToken(c *gin.Context) {
 		return
 	}
 
-	if _ = db.Table("user").Where("id = ?", userId).First(&justCheckUser); justCheckUser.Id == "" {
+	if _ = db.Table("user").Where("id = ?", userId).First(&justCheckUser); justCheckUser.Id != "" {
 		c.Next()
 		return
 	}
