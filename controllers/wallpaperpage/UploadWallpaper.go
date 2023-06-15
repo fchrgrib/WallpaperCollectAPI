@@ -61,7 +61,7 @@ func UploadWallpaper(c *gin.Context, router *gin.RouterGroup) {
 	}
 
 	if fileStat.Size() != 0 {
-		router.GET(uid, func(context *gin.Context) {
+		router.GET(uid, func(c *gin.Context) {
 			c.File(path)
 		})
 	}
