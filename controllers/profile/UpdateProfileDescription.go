@@ -64,7 +64,7 @@ func UpdateProfileDescription(c *gin.Context) {
 	user.Email = userUpdate.Email
 	user.PhoneNumber = userUpdate.PhoneNumber
 	user.UpdatedAt = &t
-	if err := db.Save(user).Error; err != nil {
+	if err := db.Table("user").Save(user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err.Error(),
 		})
