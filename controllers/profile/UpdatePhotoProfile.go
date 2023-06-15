@@ -72,7 +72,7 @@ func UpdatePhotoProfile(c *gin.Context, router *gin.RouterGroup) {
 	}
 
 	photoProfileUser.Path = path
-	user.PhotoProfile = "https://wallpapercollectapi-production-c728.up.railway.app/photo_profile/" + uid
+	user.PhotoProfile = "https://wallpapercollectapi-production-c728.up.railway.app/wallpaper/photo_profile/" + uid
 	if err := db.Table("photo_profile").Save(&photoProfileUser).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": err,
