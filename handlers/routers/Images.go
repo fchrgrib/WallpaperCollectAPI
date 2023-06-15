@@ -9,7 +9,9 @@ import (
 func Images(routers *gin.Engine) {
 
 	rImage := routers.Group("/images")
-	rImage.Use(middleware.AuthWithToken)
+	rImage.Use(func(c *gin.Context) {
+		middleware.AuthWithToken(c)
+	})
 	rImage.GET("/:id/download", wallpaperpage.DownloadWallpaper)
 	rImage.DELETE("/:id/delete", wallpaperpage.DeleteWallpaperController)
 

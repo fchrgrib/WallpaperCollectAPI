@@ -100,7 +100,7 @@ func PhotoProfileUpload(c *gin.Context, router *gin.Engine) {
 
 	if fileStat.Size() != 0 {
 		rProfile := router.Group("photo_profile")
-		rProfile.Use(func(context *gin.Context) {
+		rProfile.Use(func(c *gin.Context) {
 			middleware.AuthWithToken(c)
 		})
 		rProfile.GET(uid, func(c *gin.Context) {

@@ -64,7 +64,9 @@ func UploadWallpaper(c *gin.Context, router *gin.Engine) {
 	if fileStat.Size() != 0 {
 
 		rImage := router.Group("/images")
-		rImage.Use(middleware.AuthWithToken)
+		rImage.Use(func(c *gin.Context) {
+			middleware.AuthWithToken(c)
+		})
 		rImage.GET(uid, func(c *gin.Context) {
 			c.File(path)
 		})

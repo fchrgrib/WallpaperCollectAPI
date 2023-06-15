@@ -19,7 +19,6 @@ func AuthWithToken(c *gin.Context) {
 
 	if err != nil {
 		c.AbortWithStatus(http.StatusUnauthorized)
-		println("Salah disini tot tapi gatau kenapa ini tokennya \n" + _token + "\n ini errornya " + err.Error())
 		return
 	}
 
