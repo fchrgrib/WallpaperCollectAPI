@@ -79,13 +79,13 @@ func UserDelete(c *gin.Context) {
 				return
 			}
 		}
-	}
 
-	if err := db.Table("wallpaper_collect").Delete(wallpaperCollections).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"status": err.Error(),
-		})
-		return
+		if err := db.Table("wallpaper_collect").Delete(wallpaperCollections).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"status": err.Error(),
+			})
+			return
+		}
 	}
 
 	if err := db.Table("user").Delete(userDelete).Error; err != nil {
