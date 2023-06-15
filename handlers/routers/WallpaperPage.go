@@ -12,7 +12,6 @@ func WallpaperPage(routers *gin.Engine) {
 	privateRouters.GET("", wallpaperpage.WallpaperCollection)
 
 	rImage := routers.Group("/images")
-	rImage.Use(middleware.AuthWithToken)
 	privateRouters.POST("/upload", func(c *gin.Context) {
 		wallpaperpage.UploadWallpaper(c, rImage)
 	})
