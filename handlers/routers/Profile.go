@@ -11,7 +11,7 @@ func Profile(routers *gin.Engine) {
 	privateRouters.Use(middleware.JWT)
 	profileRouter := privateRouters.Group("/profile")
 	profileRouter.GET("", profile.Info)
-	profileRouter.PUT("/update_profile", profile.UpdateProfileDescription)
+	profileRouter.PUT("/update_profile_desc", profile.UpdateProfileDescription)
 	profileRouter.PUT("/update_profile_picture", func(c *gin.Context) {
 		profile.UpdatePhotoProfile(c, routers)
 	})
