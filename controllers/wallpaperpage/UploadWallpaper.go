@@ -3,14 +3,13 @@ package wallpaperpage
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/libs/middleware"
 	"github.com/libs/utils/data"
 	"github.com/models"
 	"net/http"
 	"os"
 )
 
-func UploadWallpaper(c *gin.Context, router *gin.Engine) {
+func UploadWallpaper(c *gin.Context, router *gin.RouterGroup) {
 	var wallpaper models.Wallpaper
 
 	if err := c.ShouldBind(&wallpaper); err != nil {
@@ -62,12 +61,7 @@ func UploadWallpaper(c *gin.Context, router *gin.Engine) {
 	}
 
 	if fileStat.Size() != 0 {
-
-		rImage := router.Group("/images")
-		rImage.Use(func(c *gin.Context) {
-			middleware.AuthWithToken(c)
-		})
-		rImage.GET(uid, func(c *gin.Context) {
+		router.GET(uid, func(c *gin.Context) {
 			c.File(path)
 		})
 	}

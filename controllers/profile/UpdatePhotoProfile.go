@@ -4,14 +4,13 @@ import (
 	"github.com/database"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/libs/middleware"
 	"github.com/libs/utils/data"
 	"github.com/models"
 	"net/http"
 	"os"
 )
 
-func UpdatePhotoProfile(c *gin.Context, router *gin.Engine) {
+func UpdatePhotoProfile(c *gin.Context, router *gin.RouterGroup) {
 	var (
 		user               models.UserDescDB
 		photoProfileUser   models.UserPhotoProfileDB
@@ -104,11 +103,7 @@ func UpdatePhotoProfile(c *gin.Context, router *gin.Engine) {
 	}
 
 	if fileStat.Size() != 0 {
-		rProfile := router.Group("photo_profile")
-		rProfile.Use(func(c *gin.Context) {
-			middleware.AuthWithToken(c)
-		})
-		rProfile.GET(uid, func(c *gin.Context) {
+		router.GET(uid, func(c *gin.Context) {
 			c.File(path)
 		})
 	}
