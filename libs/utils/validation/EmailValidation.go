@@ -5,7 +5,7 @@ import (
 	"regexp"
 )
 
-func ValidateEmail(e string) bool {
+func ValidateUserOtherEmail(e string) bool {
 
 	if govalidator.IsNull(e) {
 		return false
@@ -19,6 +19,17 @@ func ValidateEmail(e string) bool {
 	matches := re.FindStringSubmatch(e)
 
 	if len(matches) == 0 {
+		return false
+	}
+
+	return true
+}
+
+func ValidateEmail(e string) bool {
+	if govalidator.IsNull(e) {
+		return false
+	}
+	if !govalidator.IsEmail(e) {
 		return false
 	}
 

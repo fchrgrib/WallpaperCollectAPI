@@ -24,7 +24,7 @@ func CreateUser(user models.User) error {
 	}
 
 	//validating email is the string is email or not
-	if !validation.ValidateEmail(user.Email) {
+	if !validation.ValidateUserOtherEmail(user.Email) {
 		return errors.New("email is invalid")
 	}
 
