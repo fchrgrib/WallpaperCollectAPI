@@ -46,11 +46,13 @@ func UpdatePhotoProfile(c *gin.Context, router *gin.RouterGroup) {
 		return
 	}
 
-	if err := os.Remove(photoProfileUser.Path); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"status": err,
-		})
-		return
+	if photoProfileUser.Path != "" {
+		if err := os.Remove(photoProfileUser.Path); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"status": err,
+			})
+			return
+		}
 	}
 
 	if err := c.ShouldBind(&photoProfileUpload); err != nil {
