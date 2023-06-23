@@ -7,13 +7,17 @@ import (
 	"github.com/libs/utils/validation"
 	"github.com/models"
 	"net/http"
+	"sync"
 	"time"
 )
 
 func UpdateProfileDescription(c *gin.Context) {
 
-	var user models.UserDescDB
-	var userUpdate models.UserDescDB
+	var (
+		user       models.UserDescDB
+		userUpdate models.UserDescDB
+		wg         sync.WaitGroup
+	)
 
 	db, err := database.ConnectDB()
 	if err != nil {
@@ -45,31 +49,44 @@ func UpdateProfileDescription(c *gin.Context) {
 		return
 	}
 
-	if !validation.ValidateEmail(userUpdate.Email) {
-		c.JSON(http.StatusNotAcceptable, gin.H{
-			"status": "invalid email",
-		})
-		return
-	}
+	wg.Add(3)
 
-	if !validation.ValidationNumberPhone(userUpdate.PhoneNumber) {
-		c.JSON(http.StatusNotAcceptable, gin.H{
-			"status": "invalid phone number",
-		})
-		return
-	}
+	go func() {
+		defer wg.Done()
+		if !validation.ValidateEmail(userUpdate.Email) {
+			c.JSON(http.StatusNotAcceptable, gin.H{
+				"status": "invalid email",
+			})
+			return
+		}
+	}()
 
-	t := time.Now().Local()
-	user.UserName = userUpdate.UserName
-	user.Email = userUpdate.Email
-	user.PhoneNumber = userUpdate.PhoneNumber
-	user.UpdatedAt = &t
-	if err := db.Table("user").Save(user).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"status": err.Error(),
-		})
-		return
-	}
+	go func() {
+		wg.Done()
+		if !validation.ValidationNumberPhone(userUpdate.PhoneNumber) {
+			c.JSON(http.StatusNotAcceptable, gin.H{
+				"status": "invalid phone number",
+			})
+			return
+		}
+	}()
+
+	go func() {
+		wg.Done()
+		t := time.Now().Local()
+		user.UserName = userUpdate.UserName
+		user.Email = userUpdate.Email
+		user.PhoneNumber = userUpdate.PhoneNumber
+		user.UpdatedAt = &t
+		if err := db.Table("user").Save(user).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"status": err.Error(),
+			})
+			return
+		}
+	}()
+
+	wg.Wait()
 
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",
