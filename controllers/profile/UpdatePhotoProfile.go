@@ -36,38 +36,28 @@ func UpdatePhotoProfile(c *gin.Context, router *gin.RouterGroup) {
 	}
 
 	wg.Add(2)
-	errChan := make(chan error)
 
 	go func() {
 		defer wg.Done()
 		if err := db.Table("user").Where("id = ?", userId).First(&user).Error; err != nil {
-			errChan <- err
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"status": err,
+			})
+			return
 		}
 	}()
 
 	go func() {
 		defer wg.Done()
 		if err := db.Table("photo_profile").Where("user_id = ?", userId).First(&photoProfileUser).Error; err != nil {
-			errChan <- err
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"status": err,
+			})
+			return
 		}
 	}()
 
-	go func() {
-		wg.Wait()
-		close(errChan)
-	}()
-
-	if len(errChan) != 0 {
-		errors := make([]string, len(errChan))
-		for value := range errChan {
-			errors = append(errors, value.Error())
-		}
-
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"status": errors,
-		})
-		return
-	}
+	wg.Wait()
 
 	if photoProfileUser.Path != "" {
 		if err := os.Remove(photoProfileUser.Path); err != nil {
