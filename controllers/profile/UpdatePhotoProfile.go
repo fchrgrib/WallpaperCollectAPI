@@ -124,6 +124,8 @@ func UpdatePhotoProfile(c *gin.Context, router *gin.RouterGroup) {
 		}
 	}()
 
+	wg.Wait()
+
 	file, err := os.Open(path)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
