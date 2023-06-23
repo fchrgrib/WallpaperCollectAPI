@@ -17,7 +17,7 @@ func PhotoProfileUpload(c *gin.Context, router *gin.RouterGroup) {
 		ppUpload       models2.PhotoProfile
 		user           models2.UserDescDB
 		photoProfileDB models2.UserPhotoProfileDB
-		wg             *sync.WaitGroup
+		wg             sync.WaitGroup
 	)
 
 	db, err := database.ConnectDB()

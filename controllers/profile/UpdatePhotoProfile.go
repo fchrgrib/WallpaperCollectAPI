@@ -16,7 +16,7 @@ func UpdatePhotoProfile(c *gin.Context, router *gin.RouterGroup) {
 		user               models.UserDescDB
 		photoProfileUser   models.UserPhotoProfileDB
 		photoProfileUpload models.PhotoProfile
-		wg                 *sync.WaitGroup
+		wg                 sync.WaitGroup
 	)
 
 	db, err := database.ConnectDB()
