@@ -10,6 +10,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"sync"
 	"time"
 )
 
@@ -20,6 +21,7 @@ func CreateUserAuthGoogle(c *gin.Context) {
 		justCheck        models.UserDescDB
 		userPhotoProfile models.UserPhotoProfileDB
 		googleToken      models.GoogleToken
+		wg               sync.WaitGroup
 	)
 
 	db, err := database.ConnectDB()
@@ -94,32 +96,49 @@ func CreateUserAuthGoogle(c *gin.Context) {
 		Path:   "",
 	}
 
-	if err := os.MkdirAll("././assets/"+userDesc.Id+"/wallpaper_collection", os.ModePerm); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"status": err.Error(),
-		})
-		return
-	}
+	wg.Add(4)
 
-	if err := os.MkdirAll(pathProfile, os.ModePerm); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"status": err.Error(),
-		})
-		return
-	}
+	go func() {
+		defer wg.Done()
+		if err := os.MkdirAll("././assets/"+userDesc.Id+"/wallpaper_collection", os.ModePerm); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"status": err.Error(),
+			})
+			return
+		}
+	}()
 
-	if err := db.Table("user").Create(&userDesc).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"status": err.Error(),
-		})
-		return
-	}
-	if err := db.Table("photo_profile").Create(&userPhotoProfile).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"status": err.Error(),
-		})
-		return
-	}
+	go func() {
+		defer wg.Done()
+		if err := os.MkdirAll(pathProfile, os.ModePerm); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"status": err.Error(),
+			})
+			return
+		}
+	}()
+
+	go func() {
+		defer wg.Done()
+		if err := db.Table("user").Create(&userDesc).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"status": err.Error(),
+			})
+			return
+		}
+	}()
+
+	go func() {
+		defer wg.Done()
+		if err := db.Table("photo_profile").Create(&userPhotoProfile).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"status": err.Error(),
+			})
+			return
+		}
+	}()
+
+	wg.Wait()
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",
 	})
