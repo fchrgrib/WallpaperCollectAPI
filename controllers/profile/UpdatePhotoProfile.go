@@ -8,6 +8,7 @@ import (
 	"github.com/models"
 	"net/http"
 	"os"
+	"sync"
 )
 
 func UpdatePhotoProfile(c *gin.Context, router *gin.RouterGroup) {
@@ -15,6 +16,7 @@ func UpdatePhotoProfile(c *gin.Context, router *gin.RouterGroup) {
 		user               models.UserDescDB
 		photoProfileUser   models.UserPhotoProfileDB
 		photoProfileUpload models.PhotoProfile
+		wg                 *sync.WaitGroup
 	)
 
 	db, err := database.ConnectDB()
@@ -33,15 +35,36 @@ func UpdatePhotoProfile(c *gin.Context, router *gin.RouterGroup) {
 		return
 	}
 
-	if err := db.Table("user").Where("id = ?", userId).First(&user).Error; err != nil {
+	wg.Add(2)
+	errChan := make(chan error)
+
+	go func() {
+		defer wg.Done()
+		if err := db.Table("user").Where("id = ?", userId).First(&user).Error; err != nil {
+			errChan <- err
+		}
+	}()
+
+	go func() {
+		defer wg.Done()
+		if err := db.Table("photo_profile").Where("user_id = ?", userId).First(&photoProfileUser).Error; err != nil {
+			errChan <- err
+		}
+	}()
+
+	go func() {
+		wg.Wait()
+		close(errChan)
+	}()
+
+	if len(errChan) != 0 {
+		errors := make([]string, len(errChan))
+		for value := range errChan {
+			errors = append(errors, value.Error())
+		}
+
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"status": err,
-		})
-		return
-	}
-	if err := db.Table("photo_profile").Where("user_id = ?", userId).First(&photoProfileUser).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"status": err,
+			"status": errors,
 		})
 		return
 	}
@@ -66,27 +89,40 @@ func UpdatePhotoProfile(c *gin.Context, router *gin.RouterGroup) {
 	imageName := photoProfileUpload.Image.Filename
 	path := "././assets/" + userId + "/profile/" + uid + "_" + imageName
 
-	if err := c.SaveUploadedFile(photoProfileUpload.Image, path); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"status": err.Error(),
-		})
-		return
-	}
-
 	photoProfileUser.Path = path
 	user.PhotoProfile = "https://wallpapercollectapi-production-c728.up.railway.app/photo_profile/" + uid
-	if err := db.Table("photo_profile").Save(&photoProfileUser).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"status": err,
-		})
-		return
-	}
-	if err := db.Table("user").Save(&user).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"status": err,
-		})
-		return
-	}
+
+	wg.Add(3)
+
+	go func() {
+		defer wg.Done()
+		if err := c.SaveUploadedFile(photoProfileUpload.Image, path); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"status": err.Error(),
+			})
+			return
+		}
+	}()
+
+	go func() {
+		defer wg.Done()
+		if err := db.Table("photo_profile").Save(&photoProfileUser).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"status": err,
+			})
+			return
+		}
+	}()
+
+	go func() {
+		defer wg.Done()
+		if err := db.Table("user").Save(&user).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"status": err,
+			})
+			return
+		}
+	}()
 
 	file, err := os.Open(path)
 	if err != nil {
